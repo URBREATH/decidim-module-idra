@@ -29,14 +29,14 @@ en:
 
             <h3>Dataset Search and Discovery</h3>
             <ul>
-              <li>Users can search for a dataset directly within the CoP suite interface using keywords, tags, categories, and other search criteria.</li>
+              <li>Users can search for a dataset directly within the URBREATH interface using keywords, tags, categories, and other search criteria.</li>
               <li>Users can access an overview of the results, including detailed information about the resource such as title, resource type, description, publication date, and authors.</li>
               <li>Users can add or remove datasets from their favorite list.</li>
             </ul>
 
             <h3>Dataset Referencing</h3>
             <ul>
-              <li>Users can reference saved datasets directly into the body of the proposal or blog post using a dedicated button in the CoP suite text editors.</li>
+              <li>Users can reference saved datasets directly into the body of the proposal or blog post using a dedicated button in the URBREATH text editors.</li>
               <li>Datasets and data can be used by users to support topic discussion and analysis within the platform, adopting a data-driven approach.</li>
             </ul>
           </div>
