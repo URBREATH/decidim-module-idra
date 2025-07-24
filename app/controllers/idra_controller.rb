@@ -2,11 +2,12 @@
 class IdraController < Decidim::ApplicationController
   def index
 
-    @api_url = params[:api_url].presence || "https://idra-ext.urbreath.tech/Idra/api/v1/client/search"
+    @api_url = params[:api_url].presence || ENV["API_URL"]
     url = URI(@api_url)
 
-    @api_catalogues_info_url = params[:api_catalogues_info_url] || "https://idra-ext.urbreath.tech/Idra/api/v1/client/cataloguesInfo"
-    api_catalogues_info_url =  @api_catalogues_info_url
+    @api_catalogues_info_url = params[:api_catalogues_info_url] || ENV["API_CATALOGUES_INFO_URL"]
+    api_catalogues_info_url = @api_catalogues_info_url
+
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
