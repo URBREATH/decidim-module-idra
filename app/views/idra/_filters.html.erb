@@ -16,9 +16,10 @@
             <% facet_values.each do |fv| %>
               <% if fv.any? { |x| x.include?(filter) } %>
                 <%= filter %>
-                <% current_value = params["#{facet_name}_value"] || "" %>
+                <% param_name = facet_name == :categories ? "datasetThemes" : "#{facet_name}_value" %>
+                <% current_value = params[param_name] || "" %>
                 <% new_value = current_value.split(",").reject { |v| v == filter }.join(",") %>
-                <%= link_to "x", url_for(request.parameters.merge("#{facet_name}_value": new_value.presence)), rel: "nofollow" %>
+                <%= link_to "x", url_for(request.parameters.merge(param_name.to_sym => new_value.presence)), rel: "nofollow" %>
               <% end %>
             <% end %>
           <% end %>

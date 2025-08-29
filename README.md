@@ -4,8 +4,7 @@ Idra module for decidim.
 
 ## Usage
 
-Idra will be available as a Component for a Participatory
-Space.
+The “Idra” gem is a decidim-feature that enables interaction between the Idra backend and the Decidim backend. It allows retrieving and displaying all federated dataset catalogs from a specific Idra instance. The latest released version also includes a Zenodo connector to retrieve communities datasets from the platform
 
 ## Installation
 

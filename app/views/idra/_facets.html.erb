@@ -11,10 +11,11 @@
       <div class="card-body">
         <% facet_values.each_with_index do |facet, index| %>
           <div class="facet-item-<%= facet_type %> <%= "hidden" if index >= 10 %>">
-            <% existing_values = params["#{facet_type}_value"]&.split(",") || [] %>
-            <% unless @selected_filters.any? { |filter| filter.include?(facet["keyword"]) } %>
-              <% new_values = (existing_values + [facet["keyword"]]).uniq %>
-              <%= link_to facet["facet"], url_for(request.parameters.merge({ "#{facet_type}_value".to_sym => new_values.join(",") })), rel: "nofollow" %>
+            <% param_name = facet_type == "categories" ? "datasetThemes" : "#{facet_type}_value" %>
+            <% existing_values = params[param_name]&.split(",") || [] %>
+            <% unless @selected_filters.any? { |filter| filter.include?(facet["search_value"]) } %>
+              <% new_values = (existing_values + [facet["search_value"]]).uniq %>
+              <%= link_to facet["facet"], url_for(request.parameters.merge({ param_name.to_sym => new_values.join(",") })), rel: "nofollow" %>
             <% end %>
           </div>
         <% end %>

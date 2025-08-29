@@ -1,4 +1,3 @@
-
 class IdraController < Decidim::ApplicationController
   def index
 
@@ -105,13 +104,13 @@ class IdraController < Decidim::ApplicationController
       )
     end
 
-    @categories_value = params[:categories_value]
+    @datasetThemes = params[:datasetThemes]
 
-    if @categories_value.present?
+    if @datasetThemes.present?
       filters.push(
         {
           "field": "datasetThemes",
-          "value": @categories_value.start_with?(",") ? @categories_value[1..-1] : @categories_value,
+          "value": @datasetThemes.start_with?(",") ? @datasetThemes[1..-1] : @datasetThemes,
         }
       )
     end
@@ -186,8 +185,8 @@ end
       @selected_filters << params[:catalogues_value].split(",")
     end
 
-    if params[:categories_value].present?
-      @selected_filters << params[:categories_value].split(",")
+    if params[:datasetThemes].present?
+      @selected_filters << params[:datasetThemes].split(",")
     end
 
     if params[:deleted_filter].present?
