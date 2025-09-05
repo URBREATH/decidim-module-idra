@@ -2,7 +2,7 @@ it:
   decidim:
     components:
       idra:
-        name: Idra
+        name: Cataloghi Urbreath
         floating_help_html: >
           <div>
             <h2>In questa sezione</h2>

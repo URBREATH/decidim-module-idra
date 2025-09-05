@@ -1,9 +1,8 @@
----
 en:
   decidim:
     components:
       idra:
-        name: Idra
+        name: Urbreath catalogues
         floating_help_html: >
           <div>
             <h2>In this section</h2>
