@@ -26,15 +26,15 @@ module Decidim
       end
 
       idra_url = "/idra"
-      idra="Idra"
 
-      Decidim.menu :menu do |menu|
-          menu.add_item :root,
-              idra,
-              idra_url,
-              position: 6,
-              active: :exclusive
-      end
+
+       Decidim.menu :menu do |menu|
+        menu.add_item :idra,
+                    I18n.t("decidim.components.idra.name").to_s,
+                    idra_url,
+                    position: 6,
+                    active: :exclusive
+         end
 
       
     end
