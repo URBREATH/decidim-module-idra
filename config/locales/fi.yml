@@ -1,0 +1,31 @@
+fi:
+  decidim:
+    components:
+      idra:
+        name: Urbreath-katalogit
+        floating_help_html: >
+          <div>
+            <h2>Tässä osiossa</h2>
+            <p>Käyttäjät voivat hakea tietoa eri avoimien datojen portaaleista syöttämällä avainsanoja tai valitsemalla tunnisteen pilvestä.</p>
+            <p>Suodatukset tunnisteen, muodon tai lisenssin perusteella ovat saatavilla sivuvalikoista. Tulokset voidaan järjestää päivämäärän tai nimen mukaan ja käyttäjä voi valita, kuinka monta näytetään.</p>
+            <p>Jokainen tulos näyttää otsikon, kuvauksen, muodon, lisenssin, julkaisupäivän ja muuta olennaista tietoa.</p>
+            <p>Tietoaineistoja voidaan tallentaa suosikkeihin napsauttamalla keltaista tähteä ( <span style="color: var(--warning); transform: scale(2); display: inline-block;">★</span> ).</p>
+            <p>Suosikit pysyvät aina saatavilla ja niitä voidaan käyttää DECIDIM-komponenteissa tai kommenteissa.</p>
+            <p>Suosikit ovat käytettävissä:</p>
+            <ul>
+              <li>Ylläpitäjän hallintapaneelissa (tähtikuvakkeen kautta);</li>
+              <li>Kommenttimoduulissa (vain luku-tilassa).</li>
+            </ul>
+            <h2>Pääominaisuudet:</h2>
+            <h3>Haku ja löytäminen</h3>
+            <ul>
+              <li>Haku avainsanojen, tunnisteiden, kategorioiden ja muiden kriteerien avulla.</li>
+              <li>Näkymä yksityiskohtineen: otsikko, tyyppi, kuvaus, julkaisupäivä, tekijät.</li>
+              <li>Lisääminen ja poistaminen suosikeista.</li>
+            </ul>
+            <h3>Viittaus</h3>
+            <ul>
+              <li>Tietoaineistojen lisääminen suoraan teksteihin (esim. ehdotukset, blogit) editorin kautta.</li>
+              <li>Datan käyttö keskustelun ja analyysin tukena.</li>
+            </ul>
+          </div>

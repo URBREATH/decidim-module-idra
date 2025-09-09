@@ -1,0 +1,31 @@
+nl:
+  decidim:
+    components:
+      idra:
+        name: Urbreath Catalogi
+        floating_help_html: >
+          <div>
+            <h2>In deze sectie</h2>
+            <p>Gebruikers kunnen datasets zoeken in verschillende open data-portalen door trefwoorden in te voeren of een tag uit de wolk te selecteren.</p>
+            <p>Er kan gefilterd worden op tag, formaat of licentie via de zijmenu’s. Resultaten kunnen gesorteerd worden op datum of naam en de hoeveelheid zichtbare resultaten kan ingesteld worden.</p>
+            <p>Elk resultaat toont titel, beschrijving, formaat, licentie, publicatiedatum en andere relevante informatie.</p>
+            <p>Datasets kunnen worden opgeslagen als favoriet door op de gele ster te klikken ( <span style="color: var(--warning); transform: scale(2); display: inline-block;">★</span> ).</p>
+            <p>Favorieten blijven altijd toegankelijk en kunnen worden gebruikt binnen DECIDIM-componenten of in een reactie.</p>
+            <p>Favorieten zijn toegankelijk vanuit:</p>
+            <ul>
+              <li>Beheerdersdashboard (via het sterpictogram);</li>
+              <li>Reactiemodule (alleen-lezen modus).</li>
+            </ul>
+            <h2>Belangrijkste functies:</h2>
+            <h3>Zoeken en ontdekken</h3>
+            <ul>
+              <li>Zoeken via trefwoorden, tags, categorieën en andere criteria.</li>
+              <li>Detailweergave met titel, type, beschrijving, publicatiedatum, auteurs.</li>
+              <li>Toevoegen of verwijderen uit favorieten.</li>
+            </ul>
+            <h3>Referenties</h3>
+            <ul>
+              <li>Rechtstreekse invoeging van datasets in teksten (bv. voorstellen, blogs) via de editor.</li>
+              <li>Gebruik van gegevens om discussie en analyse te ondersteunen.</li>
+            </ul>
+          </div>

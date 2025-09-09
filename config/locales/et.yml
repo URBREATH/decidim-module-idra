@@ -1,0 +1,31 @@
+et:
+  decidim:
+    components:
+      idra:
+        name: Urbreath kataloogid
+        floating_help_html: >
+          <div>
+            <h2>Selles jaotises</h2>
+            <p>Kasutajad saavad otsida andmekogusid erinevatest avatud andmete portaalidest sisestades märksõnu või valides märksõna pilvest.</p>
+            <p>Andmeid saab filtreerida siltide, vormingu või litsentsi järgi külgmenüüdes. Tulemusi saab sorteerida kuupäeva või nime järgi ning valida, kui palju kuvada.</p>
+            <p>Iga tulemus näitab pealkirja, kirjeldust, vormingut, litsentsi, avaldamiskuupäeva ja muud olulist teavet.</p>
+            <p>Andmekogusid saab salvestada lemmikutesse klõpsates kollasel tähel ( <span style="color: var(--warning); transform: scale(2); display: inline-block;">★</span> ).</p>
+            <p>Lemmikud jäävad alati kättesaadavaks ja neid saab kasutada DECIDIM komponentides või kommentaarides.</p>
+            <p>Lemmikud on kättesaadavad:</p>
+            <ul>
+              <li>Administraatori töölaual (täheikooni kaudu);</li>
+              <li>Kommentaaride moodulis (ainult lugemisrežiimis).</li>
+            </ul>
+            <h2>Põhifunktsioonid:</h2>
+            <h3>Otsing ja avastamine</h3>
+            <ul>
+              <li>Otsing märksõnade, siltide, kategooriate ja muude kriteeriumide järgi.</li>
+              <li>Detailvaade koos teabega: pealkiri, tüüp, kirjeldus, avaldamiskuupäev, autorid.</li>
+              <li>Lemmikutesse lisamine või eemaldamine.</li>
+            </ul>
+            <h3>Viitamine</h3>
+            <ul>
+              <li>Andmekogude lisamine otse tekstidesse (nt ettepanekud, blogid) toimetaja kaudu.</li>
+              <li>Andmete kasutamine arutelude ja analüüsi toetamiseks.</li>
+            </ul>
+          </div>

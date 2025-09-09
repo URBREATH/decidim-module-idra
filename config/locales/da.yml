@@ -1,0 +1,31 @@
+da:
+  decidim:
+    components:
+      idra:
+        name: Urbreath-kataloger
+        floating_help_html: >
+          <div>
+            <h2>I denne sektion</h2>
+            <p>Brugere kan søge efter datasæt fra forskellige åbne dataportaler ved at indtaste nøgleord eller vælge en tag fra skyen.</p>
+            <p>Det er muligt at filtrere efter tag, format eller licens fra sidemenuerne. Resultater kan sorteres efter dato eller navn, og man kan vælge hvor mange der skal vises.</p>
+            <p>Hvert resultat viser titel, beskrivelse, format, licens, udgivelsesdato og andre relevante oplysninger.</p>
+            <p>Datasæt kan gemmes som favoritter ved at klikke på den gule stjerne ( <span style="color: var(--warning); transform: scale(2); display: inline-block;">★</span> ).</p>
+            <p>Favoritter forbliver altid tilgængelige og kan bruges i DECIDIM-komponenter eller i en kommentar.</p>
+            <p>Favoritter er tilgængelige fra:</p>
+            <ul>
+              <li>Admin-dashboardet (via stjerneikonet);</li>
+              <li>Kommentarmodulet (kun læsetilstand).</li>
+            </ul>
+            <h2>Hovedfunktioner:</h2>
+            <h3>Søgning og opdagelse</h3>
+            <ul>
+              <li>Søgning via nøgleord, tags, kategorier og andre kriterier.</li>
+              <li>Detaljeret visning med titel, type, beskrivelse, udgivelsesdato, forfattere.</li>
+              <li>Tilføjelse eller fjernelse fra favoritter.</li>
+            </ul>
+            <h3>Referencer</h3>
+            <ul>
+              <li>Direkte indsættelse af datasæt i tekster (fx forslag, blogs) via editoren.</li>
+              <li>Brug af data til at understøtte diskussion og analyse.</li>
+            </ul>
+          </div>

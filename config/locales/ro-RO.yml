@@ -1,0 +1,31 @@
+ro:
+  decidim:
+    components:
+      idra:
+        name: Cataloage Urbreath
+        floating_help_html: >
+          <div>
+            <h2>În această secțiune</h2>
+            <p>Utilizatorii pot căuta seturi de date din diferite portaluri de date deschise introducând cuvinte cheie sau selectând o etichetă din nor.</p>
+            <p>Este posibilă filtrarea după etichetă, format sau licență din meniurile laterale. Rezultatele pot fi sortate după dată sau nume și se poate alege câte să fie afișate.</p>
+            <p>Fiecare rezultat afișează titlu, descriere, format, licență, data publicării și alte informații relevante.</p>
+            <p>Seturile de date pot fi salvate în favorite făcând clic pe steaua galbenă ( <span style="color: var(--warning); transform: scale(2); display: inline-block;">★</span> ).</p>
+            <p>Favoritele rămân mereu accesibile și pot fi utilizate în componentele DECIDIM sau în comentarii.</p>
+            <p>Favoritele sunt accesibile din:</p>
+            <ul>
+              <li>Panoul de administrare (prin pictograma stea);</li>
+              <li>Modulul de comentarii (numai în modul citire).</li>
+            </ul>
+            <h2>Funcționalități principale:</h2>
+            <h3>Căutare și descoperire</h3>
+            <ul>
+              <li>Căutare după cuvinte cheie, etichete, categorii și alte criterii.</li>
+              <li>Vizualizare detaliată cu titlu, tip, descriere, data publicării, autori.</li>
+              <li>Adăugare sau eliminare din favorite.</li>
+            </ul>
+            <h3>Referențiere</h3>
+            <ul>
+              <li>Introducerea directă a seturilor de date în texte (ex. propuneri, bloguri) prin editor.</li>
+              <li>Utilizarea datelor pentru a sprijini discuțiile și analiza.</li>
+            </ul>
+          </div>
