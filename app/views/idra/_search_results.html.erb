@@ -218,7 +218,7 @@
   <div class="results-card">
     <div class="results-card-title">
       <div style="display: flex; align-items: baseline; justify-content: space-between">
-        <h4><a href="<%= result["landingPage"] %>"><%= result["title"] %></a></h4>
+        <b><h4><a href="<%= result["landingPage"]%>", target="blank"><%= result["title"] %></a></h4></b>
         <!-- Save dataset -->
         <% if current_user %>
           <button id='buttonId-<%= result["id"] %>' class="bg-transparent" style="cursor: pointer; transform: scale(1.5,1.5)" 
