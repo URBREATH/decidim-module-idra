@@ -1,0 +1,65 @@
+<section id="home__menu" class="home__menu">
+  <div class="home__menu__container">
+    <% menu_items.each do |item| %>
+      <div class="home__menu-element">
+        <%= link_to item.url, class: "button button__text outline-none
+        home__menu-element--link" do %>
+          <%= item.label %>
+        <% end %>
+      </div>
+    <% end %>
+<div class="home__menu-element">
+  <%= link_to('/idra', class: "button button__text outline-none home__menu-element--link") do %>
+    <%= t('decidim.components.idra.name') %>
+  <% end %>
+</div>
+  </div>
+
+<% if params[:embedded] == "true" %>
+<div style="text-align: center; margin-top: 2em">
+  <%= form_tag(decidim.search_path, method: :get, id: "form-search_topbar") do %>
+    <%= text_field_tag(
+      :term,
+      nil,
+      id: "input-search",
+      class: "reset-defaults",
+      value: params[:term] || params.dig(:filter, :term),
+      placeholder: t("decidim.search.term_input_placeholder"),
+      title: t("decidim.search.term_input_placeholder"),
+      "aria-label": t("decidim.search.term_input_placeholder"),
+      style: "border-radius: 6px; padding: 5px;"
+    ) %>
+    <button type="submit" aria-label="<%= t("decidim.search.term_input_placeholder") %>" style="color: white; fill: white;">
+      <%= icon "search-line" %>
+    </button>
+  <% end %>
+</div>
+
+  <div class="embedded-buttons-wrapper" style="display: flex; flex-direction: row; gap: 8em; justify-content: center; margin-top: 1em;">
+    <div>
+      <%= link_to decidim.pages_path, class: "main-bar__links-desktop__item", style: "color: white;" do %>
+        <%= icon "question-line", style: "fill: white;" %>
+        <span>Aiuto</span>
+      <% end %>
+    </div>
+
+    <% if Decidim.module_installed?(:meetings) %>
+      <div>
+        <%= link_to Decidim::Meetings::DirectoryEngine.routes.url_helpers.root_path, class: "main-bar__links-desktop__item", style: "color: white;" do %>
+          <%= icon "road-map-line", style: "fill: white;" %>
+          <span>Meetings</span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div>
+      <%= link_to decidim.last_activities_path, class: "main-bar__links-desktop__item", style: "color: white;" do %>
+        <%= icon "bubble-chart-line", style: "fill: white;" %>
+        <span>Attività</span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
+</section>

@@ -210,13 +210,21 @@ end
       selected_dataset_id = params[:selected_dataset_id]
       @selected_dataset_id = selected_dataset_id
       selected_url = params[:selected_url]
-  
-      unless SavedDatasets.exists?(dataset_id: selected_dataset_id, decidim_user: current_user)
-        saved_dataset = SavedDatasets.create(title: selected_title, decidim_user: current_user, url: selected_url, dataset_id: selected_dataset_id)
+
+      saved_dataset = SavedDatasets.find_or_initialize_by(
+        dataset_id: selected_dataset_id,
+        decidim_user: current_user
+      )
+
+      saved_dataset.title = selected_title
+      saved_dataset.url = selected_url
+
+      if saved_dataset.save
         @datasets = SavedDatasets.where(decidim_user: current_user)
+        render partial: "datasets_list"
+      else
+        render json: { errors: saved_dataset.errors.full_messages }, status: :unprocessable_entity
       end
-  
-      render partial: "datasets_list"
     end
     
   

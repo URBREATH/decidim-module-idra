@@ -221,8 +221,9 @@
         <b><h4><a href="<%= result["landingPage"]%>", target="blank"><%= result["title"] %></a></h4></b>
         <!-- Save dataset -->
         <% if current_user %>
+          <% dataset_url = result["landingPage"].presence || result.dig("distributions", 0, "downloadURL") %>
           <button id='buttonId-<%= result["id"] %>' class="bg-transparent" style="cursor: pointer; transform: scale(1.5,1.5)" 
-            onclick="toggleStarAndSaveTitle('<%= result['title'] %>', '<%= result["id"] %>', '<%= result['landingPage'] %>');
+            onclick="toggleStarAndSaveTitle('<%= j(result['title'].to_s) %>', '<%= j(result['id'].to_s) %>', '<%= j(dataset_url.to_s) %>');
             " data-star="<% if @list.include?(result["id"]) %>1<% else %>0<% end %>">
             <% if @list.include?(result["id"]) %>
               <span style="color: var(--warning)">★</span>

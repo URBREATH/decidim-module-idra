@@ -496,26 +496,36 @@
       },
       body: JSON.stringify({ selected_titles: title, selected_url: url, selected_dataset_id: buttonId })
     })
-    .then(response => {
+    .then(async response => {
       if (response.ok) {
-      button.setAttribute('data-star', '1');
-      button.innerHTML = "<span style='color: var(--warning)'>★</span>";
-      button.disabled = false; // Re-enable the button
-      counter++;
-      counterText.innerHTML = counter;
-        updatePartialView()
-      } else {
-        // Handle errors if needed
-        console.error('Failed to save dataset:', response.status, response.statusText);
-        button.disabled = false; // Re-enable the button if there was an error
-        alert('Failed to save dataset. Please try again.');
+        button.setAttribute('data-star', '1');
+        button.innerHTML = "<span style='color: var(--warning)'>★</span>";
+        button.disabled = false; // Re-enable the button
+        counter++;
+        counterText.innerHTML = counter;
+        updatePartialView();
+        return;
       }
+
+      let errorMessage = 'Failed to save dataset. Please try again.';
+
+      try {
+        const errorData = await response.json();
+        if (errorData && errorData.errors && errorData.errors.length > 0) {
+          errorMessage = errorData.errors.join(', ');
+        }
+      } catch (parseError) {
+        console.error('Error parsing dataset save response:', parseError);
+      }
+
+      console.error('Failed to save dataset:', response.status, response.statusText);
+      button.disabled = false; // Re-enable the button if there was an error
+      alert(errorMessage);
     })
     .catch(error => {
-      // Handle errors if needed
       console.error('Error saving dataset:', error);
       button.disabled = false; // Re-enable the button if there was an error
-      alert('An error occurred. Please try again.');
+      alert(error && error.message ? error.message : 'An error occurred. Please try again.');
     });
   }
 
