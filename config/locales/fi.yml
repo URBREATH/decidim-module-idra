@@ -29,3 +29,9 @@ fi:
               <li>Datan käyttö keskustelun ja analyysin tukena.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Poistetaanko aineisto?
+        body: Haluatko varmasti poistaa tämän aineiston suosikeista?
+        confirm: Poista
+        cancel: Peruuta

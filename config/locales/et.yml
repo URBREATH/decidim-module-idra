@@ -29,3 +29,9 @@ et:
               <li>Andmete kasutamine arutelude ja analüüsi toetamiseks.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Kustutada andmekogum?
+        body: Kas soovid selle andmekogumi eemaldada oma lemmikutest?
+        confirm: Kustuta
+        cancel: Tühista

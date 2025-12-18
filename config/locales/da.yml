@@ -29,3 +29,9 @@ da:
               <li>Brug af data til at understøtte diskussion og analyse.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Slet datasættet?
+        body: Er du sikker på, at du vil fjerne dette datasæt fra dine favoritter?
+        confirm: Slet
+        cancel: Annuller

@@ -1,0 +1,9 @@
+<% if @paginated_results.present? && @paginated_results.total_pages > 1 %>
+  <div class="pagination-wrapper">
+    <%= paginate @paginated_results,
+                 params: request.query_parameters.except(:page, :start),
+                 theme: "decidim",
+                 window: 2,
+                 outer_window: 1 %>
+  </div>
+<% end %>

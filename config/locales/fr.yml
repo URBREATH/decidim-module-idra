@@ -39,3 +39,9 @@ fr:
               <li>Soutien à l’analyse et au débat via les données.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Supprimer le jeu de données ?
+        body: Voulez-vous vraiment supprimer ce jeu de données de vos favoris ?
+        confirm: Supprimer
+        cancel: Annuler

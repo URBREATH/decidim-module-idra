@@ -15,15 +15,16 @@
             <% existing_values = params[param_name]&.split(",") || [] %>
             <% unless @selected_filters.any? { |filter| filter.include?(facet["search_value"]) } %>
               <% new_values = (existing_values + [facet["search_value"]]).uniq %>
-              <%= link_to facet["facet"], url_for(request.parameters.merge({ param_name.to_sym => new_values.join(",") })), rel: "nofollow" %>
+              <%= link_to facet["facet"], url_for(request.parameters.merge({ param_name.to_sym => new_values.join(","), page: nil })), rel: "nofollow" %>
             <% end %>
           </div>
         <% end %>
       </div>
 
       <div class="show-more-button">
-        <br>
-        <a id="showMore<%= facet_type.capitalize %>Btn" style="cursor: pointer;" <%= "hidden" if facet_values.size <= 10 %>>Show all results (<%= facet_values.size %>)</a>
+        <% if facet_values.size > 10 %>
+          <a data-facet="<%= facet_type %>" data-label-more="Show all results (<%= facet_values.size %>)" data-label-less="Show less">Show all results (<%= facet_values.size %>)</a>
+        <% end %>
         <span <%= "hidden" if facet_values.size > 0 %>>No results</span>
       </div>
     </div>
@@ -31,26 +32,3 @@
     <br>
   <% end %>
 <% end %>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".show-more-button a").forEach(function (button) {
-    button.addEventListener("click", function () {
-      let facetType = this.id.replace("showMore", "").replace("Btn", "").toLowerCase();
-      let allItems = Array.from(document.querySelectorAll(".facet-item-" + facetType));
-      let hiddenItems = allItems.filter(item => item.classList.contains("hidden"));
-      let isExpanded = hiddenItems.length === 0;
-
-      if (isExpanded) {
-        allItems.forEach((item, index) => {
-          item.classList.toggle("hidden", index >= 10);
-        });
-      } else {
-        allItems.forEach(item => item.classList.remove("hidden"));
-      }
-
-      this.textContent = isExpanded ? `Show all results (${allItems.length})` : "Show less";
-    });
-  });
-});
-</script>

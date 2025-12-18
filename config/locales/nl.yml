@@ -29,3 +29,9 @@ nl:
               <li>Gebruik van gegevens om discussie en analyse te ondersteunen.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Dataset verwijderen?
+        body: Weet je zeker dat je deze dataset uit je favorieten wilt verwijderen?
+        confirm: Verwijderen
+        cancel: Annuleren

@@ -1,265 +1,50 @@
-<script>
-  window.savedDatasets = <%= raw @datasets.as_json.to_json %>;
-</script>
-
-<style>
-  .resources-container {
-    width: 100%;
-    margin: 20px 0;
-  }
-  
-  .resource-item {
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(var(--secondary-rgb), 0.05);
-    border: 1px solid rgba(var(--secondary-rgb), 0.2);
-    border-radius: 8px;
-    margin-bottom: 15px;
-    padding: 20px;
-    transition: all 0.3s ease;
-  }
-  
-  .resource-item:hover {
-    background-color: rgba(var(--secondary-rgb), 0.1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .resource-header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .resource-format {
-    background-color: var(--primary);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85em;
-    font-weight: bold;
-    white-space: nowrap;
-    min-width: fit-content;
-  }
-  
-  .resource-title {
-    font-weight: 600;
-    font-size: 1.1em;
-    color: var(--text-primary);
-    word-wrap: break-word;
-  }
-  
-  .resource-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  
-  .resource-description {
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-    line-height: 1.5;
-  }
-  
-  .resource-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-  
-  .btn-details, .btn-download {
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .btn-details {
-    background-color: transparent;
-    border: 1px solid var(--secondary);
-    color: var(--secondary);
-  }
-  
-  .btn-details:hover {
-    background-color: var(--secondary);
-    color: white;
-  }
-  
-  .btn-download {
-    background-color: var(--primary);
-    color: white;
-  }
-  
-  .btn-download:hover {
-    background-color: var(--primary-dark, var(--primary));
-    transform: translateY(-1px);
-  }
-  
-  .resource-details {
-    background-color: rgba(var(--secondary-rgb), 0.1);
-    border-radius: 8px;
-    margin-top: 15px;
-    padding: 20px;
-    border-left: 4px solid var(--primary);
-    display: none;
-  }
-  
-  .resource-details.show {
-    display: block;
-    animation: slideDown 0.3s ease;
-  }
-  
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      max-height: 0;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-    to {
-      opacity: 1;
-      max-height: 500px;
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-  }
-  
-  .detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(var(--secondary-rgb), 0.2);
-  }
-  
-  .detail-row:last-child {
-    border-bottom: none;
-  }
-  
-  .detail-label {
-    font-weight: bold;
-    color: var(--text-primary);
-    min-width: 120px;
-  }
-  
-  .detail-value {
-    color: var(--text-secondary);
-    word-wrap: break-word;
-    text-align: right;
-  }
-  
-  .detail-value a {
-    color: var(--primary);
-    text-decoration: none;
-  }
-  
-  .detail-value a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .resource-header {
-      grid-template-columns: 1fr;
-      gap: 10px;
-      text-align: center;
-    }
-    
-    .resource-actions {
-      justify-content: center;
-    }
-    
-    .resource-buttons {
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .detail-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-    }
-    
-    .detail-value {
-      text-align: left;
-      width: 100%;
-    }
-    
-    .resource-format {
-      align-self: center;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .resource-item {
-      padding: 15px;
-    }
-    
-    .resource-buttons {
-      flex-direction: column;
-    }
-    
-    .btn-details, .btn-download {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-</style>
-
-<% @api_results["results"].each_with_index do |result, index| %>
+<% @paginated_results.each_with_index do |result, index| %>
+  <% dataset_url = result["landingPage"].presence || result.dig("distributions", 0, "downloadURL") %>
+  <% saved = @list.include?(result["id"]) %>
   <div class="results-card">
     <div class="results-card-title">
-      <div style="display: flex; align-items: baseline; justify-content: space-between">
-        <b><h4><a href="<%= result["landingPage"]%>", target="blank"><%= result["title"] %></a></h4></b>
-        <!-- Save dataset -->
+      <div class="flex-between">
+        <h4><strong><a href="<%= result["landingPage"] %>" target="_blank" rel="nofollow"><%= result["title"] %></a></strong></h4>
         <% if current_user %>
-          <% dataset_url = result["landingPage"].presence || result.dig("distributions", 0, "downloadURL") %>
-          <button id='buttonId-<%= result["id"] %>' class="bg-transparent" style="cursor: pointer; transform: scale(1.5,1.5)" 
-            onclick="toggleStarAndSaveTitle('<%= j(result['title'].to_s) %>', '<%= j(result['id'].to_s) %>', '<%= j(dataset_url.to_s) %>');
-            " data-star="<% if @list.include?(result["id"]) %>1<% else %>0<% end %>">
-            <% if @list.include?(result["id"]) %>
-              <span style="color: var(--warning)">★</span>
-            <% else %>☆<% end %>
+          <button
+            class="bg-transparent save-dataset-btn <%= 'is-saved' if saved %>"
+            type="button"
+            data-idra-save
+            data-dataset-id="<%= result["id"] %>"
+            data-title="<%= result["title"] %>"
+            data-url="<%= dataset_url %>"
+            data-star="<%= saved ? 1 : 0 %>">
+            <%= saved ? "★" : "☆" %>
           </button>
         <% end %>
       </div>
     </div>
-    
+
     <div class="results-card-body">
       <div class="truncated-content">
         <%= truncate_html(result["description"], length: 300) %>
       </div>
-      
+
       <div class="full-content" style="display: none;" id="full-content-<%= index %>">
         <%= sanitize(result["description"], tags: %w[p br strong em a ul ol li], attributes: %w[href]) %>
-        
-        <div class="column" style="width: 100%; margin: 0px; padding:20px 0px 50px 0px">
-          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0px; margin: 0px">
-          
-          <!-- Tags Section -->
-          <div style="width: 100%" class="row">
+
+        <div class="column" style="width: 100%; margin: 0; padding:20px 0 50px 0">
+          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0; margin: 0">
+
+          <div class="row" style="width: 100%">
             <p style="font-weight: bold">Tags</p>
-            <div class="tag-container" style="margin-bottom: 20px; margin-top: 0px">
-              <% result["keywords"].each_with_index do |obj, index| %>
+            <div class="tag-container" style="margin-bottom: 20px; margin-top: 0">
+              <% result["keywords"].each do |obj| %>
                 <div class="format-box"><%= obj %></div>
               <% end %>
             </div>
           </div>
-          
-          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0px; margin: 0px">
-          
-          <!-- Resources Section - MIGLIORATA -->
+
+          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0; margin: 0">
+
           <div class="row">
             <p style="font-weight: bold; margin-bottom: 20px;">Resources</p>
-            
+
             <div class="resources-container">
               <% result["distributions"].each_with_index do |obj, resource_index| %>
                 <div class="resource-item">
@@ -267,7 +52,7 @@
                     <div class="resource-format"><%= obj["format"] %></div>
                     <div class="resource-title"><%= obj["title"] %></div>
                   </div>
-                  
+
                   <div class="resource-description">
                     <% if obj["description"].present? && obj["description"].size > 0 %>
                       <%= obj["description"] %>
@@ -275,7 +60,7 @@
                       No description available
                     <% end %>
                   </div>
-                  
+
                   <div class="resource-buttons">
                     <button class="btn-details show-more-details-button" data-target="show-more-details-<%= index %>-<%= resource_index %>">
                       <i class="icon icon-info"></i> Details
@@ -284,25 +69,25 @@
                       <i class="icon icon-download"></i> Download
                     <% end %>
                   </div>
-                  
+
                   <div id="show-more-details-<%= index %>-<%= resource_index %>" class="resource-details">
                     <div class="detail-row">
                       <span class="detail-label">Title:</span>
                       <span class="detail-value"><%= obj["title"] %></span>
                     </div>
-                    
+
                     <div class="detail-row">
                       <span class="detail-label">Format:</span>
                       <span class="detail-value"><%= obj["format"] %></span>
                     </div>
-                    
+
                     <div class="detail-row">
                       <span class="detail-label">Download URL:</span>
                       <span class="detail-value">
                         <%= link_to obj["downloadURL"], obj["downloadURL"], target: "_blank", rel: "nofollow" %>
                       </span>
                     </div>
-                    
+
                     <% if obj.dig("license", "name").present? %>
                       <div class="detail-row">
                         <span class="detail-label">License:</span>
@@ -311,7 +96,7 @@
                         </span>
                       </div>
                     <% end %>
-                    
+
                     <% if obj["mediaType"].present? %>
                       <div class="detail-row">
                         <span class="detail-label">Media Type:</span>
@@ -323,61 +108,60 @@
               <% end %>
             </div>
           </div>
-          
-          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0px; margin: 0px">
-          
-          <!-- Additional Info Section migliorata -->
-          <div style="width: 100%" class="row">
+
+          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0; margin: 0">
+
+          <div class="row" style="width: 100%">
             <p style="font-weight: bold; margin-bottom: 20px;">Additional info</p>
             <div class="additional-info-container" style="margin-left: 30px">
               <% if result["landingPage"].present? %>
                 <span><strong><i class="icon icon-external-link"></i> Dataset page:</strong> <a href="<%= result["landingPage"] %>"> <%= result["landingPage"] %> </a></span>
               <% end %>
-            
+
               <% if result.dig("distributions", 0, "license", "uri").present? && result.dig("distributions", 0, "license", "name").present? %>
                 <span><strong><i class="icon icon-license"></i> Licenses:</strong> <a href="<%= result["distributions"][0]["license"]["uri"] %>"> <%= result["distributions"][0]["license"]["name"] %> </a></span>
               <% end %>
-            
+
               <% if result.dig("publisher", "name").present? %>
                 <span><strong><i class="icon icon-organization"></i> Publisher:</strong> <%= result["publisher"]["name"] %></span>
               <% end %>
-            
+
               <% if result.dig("creator", "name").present? %>
                 <span><strong><i class="icon icon-user"></i> Creator:</strong> <%= result["creator"]["name"] %></span>
               <% end %>
-            
+
               <% if result["releaseDate"].present? %>
                 <span><strong><i class="icon icon-calendar"></i> Release date:</strong> <%= result["releaseDate"] %></span>
               <% end %>
-            
+
               <% if result["updateDate"].present? %>
                 <span><strong><i class="icon icon-refresh"></i> Update date:</strong> <%= result["updateDate"] %></span>
               <% end %>
-            
+
               <% if result["language"].present? && result["language"][0].present? %>
                 <span><strong><i class="icon icon-globe"></i> Language:</strong> <%= result["language"][0] %></span>
               <% end %>
-            
+
               <% if result.dig("theme", 0, "prefLabel", 0, "value").present? %>
                 <span><strong><i class="icon icon-tag"></i> Topic:</strong> <%= result["theme"][0]["prefLabel"][0]["value"] %></span>
               <% end %>
-            
+
               <% if result["identifier"].present? %>
                 <span><strong><i class="icon icon-key"></i> Identifier:</strong> <%= result["identifier"] %></span>
               <% end %>
-            
+
               <% if result["otherIdentifier"].present? && result["otherIdentifier"][0].present? %>
                 <span><strong><i class="icon icon-keys"></i> Other identifiers:</strong> <%= result["otherIdentifier"][0] %></span>
               <% end %>
             </div>
           </div>
-          
-          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0px; margin: 0px">
+
+          <hr style="height: 1px; border: none; background-color: lightgray; width: 100%; padding: 0; margin: 0">
         </div>
       </div>
-      
-      <a href="#" class="expand-link button small hollow card__button" style="margin-top: 2em; padding: 3px;" data-card-index="<%= index %>">Read More</a>
-      
+
+      <a href="#" class="expand-link button small hollow card__button" style="margin-top: 2em; padding: 3px;" data-card-target="full-content-<%= index %>" data-label-open="Read More" data-label-close="Close">Read More</a>
+
       <div class="format-container">
         <% displayed_formats = [] %>
         <% result["distributions"].each do |elem| %>
@@ -392,47 +176,3 @@
     </div>
   </div>
 <% end %>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Gestione expand/collapse delle card
-  const expandLinks = document.querySelectorAll('.expand-link');
-  expandLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-      event.preventDefault();
-      const cardIndex = link.getAttribute('data-card-index');
-      const content = document.getElementById('full-content-' + cardIndex);
-      
-      if (content.style.display === 'none') {
-        content.style.display = 'block';
-        link.textContent = 'Close'; 
-      } else {
-        content.style.display = 'none';
-        link.textContent = 'Read More'; 
-      }
-    });
-  });
-
-  // Gestione dei dettagli delle risorse
-  const detailButtons = document.querySelectorAll('.show-more-details-button');
-  detailButtons.forEach(button => {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      const targetId = button.getAttribute('data-target');
-      const targetElement = document.getElementById(targetId);
-      
-      if (targetElement) {
-        const isVisible = targetElement.classList.contains('show');
-        
-        if (isVisible) {
-          targetElement.classList.remove('show');
-          button.innerHTML = '<i class="icon icon-info"></i> Details';
-        } else {
-          targetElement.classList.add('show');
-          button.innerHTML = '<i class="icon icon-eye-close"></i> Hide Details';
-        }
-      }
-    });
-  });
-});
-</script>

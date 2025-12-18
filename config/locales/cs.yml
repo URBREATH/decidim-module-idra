@@ -29,3 +29,9 @@ nl:
               <li>Gebruik van gegevens om discussie en analyse te ondersteunen.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Smazat dataset?
+        body: Opravdu chcete tento dataset odebrat z oblíbených?
+        confirm: Smazat
+        cancel: Zrušit

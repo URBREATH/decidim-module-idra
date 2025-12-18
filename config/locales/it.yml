@@ -39,3 +39,9 @@ it:
               <li>Utilizzo dei dati per supportare l’analisi e la discussione.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Eliminare il dataset?
+        body: Sei sicuro di voler rimuovere questo dataset dai preferiti?
+        confirm: Elimina
+        cancel: Annulla

@@ -42,8 +42,19 @@ class IdraController < Decidim::ApplicationController
 
     selected_option = params[:field].presence || "title"
     field = selected_option.presence || "title"
-    @rows = (params[:rows].presence || "5").to_i # Convert to integer if needed
-    @start = (params[:start].presence || "0").to_i # Convert to integer if needed
+    @rows = (params[:rows].presence || "5").to_i
+    @rows = 5 if @rows <= 0
+
+    @page = params[:page].to_i
+    @page = 1 if @page <= 0
+
+    if params[:page].blank?
+      start_param = (params[:start].presence || "0").to_i
+      start_param = 0 if start_param.negative?
+      @page = (start_param / @rows) + 1
+    end
+
+    @start = (@page - 1) * @rows
     start = @start
 
     @nodes = []
@@ -139,7 +150,10 @@ class IdraController < Decidim::ApplicationController
 
     @api_results = JSON.parse(response.read_body)
 
-    @total_results = @api_results["count"]
+    @total_results = @api_results["count"].to_i
+    @paginated_results = Kaminari.paginate_array(Array(@api_results["results"]), total_count: @total_results)
+                                 .page(@page)
+                                 .per(@rows)
 
 
     @selected_filters = []
@@ -168,6 +182,7 @@ else
   @categories_values = []
 end
 
+    @tag_cloud_values = tag_cloud_values(@tags_values)
 
     if params[:tags_value].present?
       @selected_filters << params[:tags_value].split(",")
@@ -202,7 +217,33 @@ end
       @list << data.dataset_id
     end
 
-    render "idra/index"
+    respond_to do |format|
+      format.html { render "idra/index" }
+      format.json do
+        render json: {
+          results: @api_results["results"],
+          count: @total_results,
+          page: @page,
+          per_page: @rows,
+          start: @start,
+          facets: {
+            tags: @tags_values,
+            formats: @formats_values,
+            licenses: @licenses_values,
+            catalogues: @catalogues_values,
+            categories: @categories_values,
+          },
+          filters: {
+            search: @search_value,
+            tags: @tags_value,
+            formats: @formats_value,
+            licenses: @licenses_value,
+            catalogues: @catalogues_value,
+            datasetThemes: @datasetThemes,
+          },
+        }
+      end
+    end
   end
 
     def create
@@ -258,5 +299,20 @@ end
     respond_to do |format|
       format.json { render json: @datasets }
     end
+  end
+
+  private
+
+  def tag_cloud_values(tags)
+    Array(tags).sort_by { |tag| -tag_weight(tag) }.first(30)
+  end
+
+  def tag_weight(tag)
+    return 0 unless tag.respond_to?(:[])
+
+    facet_text = tag["facet"] || tag[:facet]
+    weight_value = facet_text.to_s[/\((\d+)\)/, 1]
+    weight_value ||= tag["count"] || tag[:count] || tag["valueCount"] || tag[:valueCount]
+    weight_value.to_i
   end
 end

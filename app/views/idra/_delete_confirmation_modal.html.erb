@@ -1,0 +1,18 @@
+<div id="idra-delete-confirm" class="delete-confirm-overlay" aria-hidden="true">
+  <div class="delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="idra-delete-confirm-title" aria-describedby="idra-delete-confirm-body">
+    <div class="delete-confirm-header">
+      <%= icon "delete-bin-line" %>
+      <h2 id="idra-delete-confirm-title"><%= t("decidim.idra.delete_confirmation.title") %></h2>
+    </div>
+    <p id="idra-delete-confirm-body"><%= t("decidim.idra.delete_confirmation.body") %></p>
+
+    <div class="delete-confirm-actions">
+      <button type="button" class="button button__lg button__transparent-secondary" data-idra-delete-cancel>
+        <%= t("decidim.idra.delete_confirmation.cancel") %>
+      </button>
+      <button type="button" class="button button__lg button__secondary" data-idra-delete-confirm>
+        <%= t("decidim.idra.delete_confirmation.confirm") %>
+      </button>
+    </div>
+  </div>
+</div>

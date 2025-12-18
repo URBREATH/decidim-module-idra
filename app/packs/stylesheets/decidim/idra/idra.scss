@@ -1,1 +1,759 @@
-/* css for decidim_idra */
+.idra-page {
+  --idra-star-color: #f5c400;
+
+  .container {
+    max-width: 85%;
+    padding: 0;
+  }
+
+  .search-form {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(var(--secondary-rgb), 0.1);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .dropdown-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .dropdown-sort-by {
+    text-align: left;
+  }
+
+  .search-form input[type="text"] {
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: black;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .content-on-left {
+    display: flex;
+    justify-content: flex-start;
+    gap: 50px;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .submit-button {
+    display: flex;
+    background-color: var(--secondary-rgb);
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding: 0 10px;
+    cursor: pointer;
+    height: 2.5rem;
+  }
+
+  .results-count {
+    color: black;
+    padding-top: 20px;
+  }
+
+  .row-body {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+  }
+
+  .col-left {
+    flex: 1;
+    margin-right: 40px;
+  }
+
+  .col-right {
+    flex: 3;
+    width: 80%;
+  }
+
+  .div-buttons,
+  .div-buttons-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .div-buttons-bottom {
+    justify-content: flex-end;
+  }
+
+  .div-buttons > button,
+  .div-buttons-bottom > button {
+    display: flex;
+    gap: 4px;
+    padding: 0 10px;
+  }
+
+  .facets-card {
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: black;
+    padding-bottom: 10px;
+  }
+
+  .card-title {
+    background-color: var(--secondary);
+    color: white;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    padding: 10px 0;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin: 10px 0 0 20px;
+  }
+
+  .card-body .hidden {
+    display: none;
+  }
+
+  .results-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .flex-between {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .results-card-title a {
+    color: var(--primary);
+  }
+
+  .save-dataset-btn {
+    font-size: 24px;
+    line-height: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(var(--secondary-rgb), 0.3);
+    color: var(--secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+
+  .save-dataset-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .save-dataset-btn.is-saved {
+    color: var(--idra-star-color);
+    border-color: var(--idra-star-color);
+  }
+
+  .delete-btn {
+    padding: 0;
+    min-width: 2.4rem;
+    height: 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--alert);
+
+    .icon,
+    .delete-icon {
+      margin: 0;
+      color: inherit;
+      fill: currentColor;
+    }
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      box-shadow: none;
+      color: var(--alert);
+    }
+  }
+
+  .modal-toggle-button {
+    padding: 4px 8px;
+    min-width: 2.2rem;
+    height: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    gap: 6px;
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+  .results-card-body {
+    color: grey;
+    margin-top: 1em;
+  }
+
+  .filter-box {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    max-width: 1200px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .filter-item {
+    margin-right: 5px;
+    background: var(--secondary);
+    color: white;
+    padding: 5px 10px 5px 20px;
+    border-radius: 15px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .filter-item:hover {
+    transform: scale(1.05);
+  }
+
+  .filter-item a {
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+    padding: 0 8px 2px;
+    background-color: transparent;
+  }
+
+  .filter-item a:hover {
+    color: var(--primary);
+  }
+
+  .format-container,
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 40px;
+  }
+
+  .format-box {
+    border: 1px solid gray;
+    padding: 0 10px 2px;
+    color: gray;
+    border-radius: 10px;
+  }
+
+  .truncated-content p {
+    margin: 0;
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .cloud {
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .cloud span {
+    cursor: pointer;
+  }
+
+  .additional-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .additional-info-container span {
+    display: block;
+    word-wrap: break-word;
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+  }
+
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 901;
+    width: 60%;
+    height: 80%;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  /* Ensure Decidim external link warning overlays above the Idra modal */
+  .reveal-overlay {
+    z-index: 3000 !important;
+  }
+
+  #external-domain-warning {
+    z-index: 3001 !important;
+  }
+
+  .scrollable {
+    height: 60vh;
+    overflow-y: auto;
+    margin-top: 1em;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 1em;
+  }
+
+  .dataset-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .dataset-item:hover {
+    background-color: lightgray;
+  }
+
+  .dataset-item a {
+    flex-grow: 1;
+  }
+
+  .dataset-item button {
+    margin-left: auto;
+  }
+
+  .text-center {
+    padding: 5px 0 20px;
+  }
+
+  .delete-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 4005;
+
+    &.is-visible {
+      display: flex;
+    }
+  }
+
+  .delete-confirm-modal {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    max-width: 460px;
+    width: 90%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .delete-confirm-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .icon {
+      color: var(--alert);
+      width: 28px;
+      height: 28px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+  }
+
+  .delete-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .resources-container {
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  .resource-item {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(var(--secondary-rgb), 0.05);
+    border: 1px solid rgba(var(--secondary-rgb), 0.2);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .resource-item:hover {
+    background-color: rgba(var(--secondary-rgb), 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .resource-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .resource-format {
+    background-color: var(--primary);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+
+  .resource-title {
+    font-weight: 600;
+    font-size: 1.1em;
+    color: var(--text-primary);
+    word-wrap: break-word;
+  }
+
+  .resource-description {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+
+  .resource-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .btn-details,
+  .btn-download {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .btn-details {
+    background-color: transparent;
+    border: 1px solid var(--secondary);
+    color: var(--secondary);
+  }
+
+  .btn-details:hover {
+    background-color: var(--secondary);
+    color: white;
+  }
+
+  .btn-download {
+    background-color: var(--primary);
+    color: white;
+  }
+
+  .btn-download:hover {
+    background-color: var(--primary-dark, var(--primary));
+    transform: translateY(-1px);
+  }
+
+  .resource-details {
+    background-color: rgba(var(--secondary-rgb), 0.1);
+    border-radius: 8px;
+    margin-top: 15px;
+    padding: 20px;
+    border-left: 4px solid var(--primary);
+    display: none;
+  }
+
+  .resource-details.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(var(--secondary-rgb), 0.2);
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-label {
+    font-weight: bold;
+    color: var(--text-primary);
+    min-width: 120px;
+  }
+
+  .detail-value {
+    color: var(--text-secondary);
+    word-wrap: break-word;
+    text-align: right;
+  }
+
+  .detail-value a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  .detail-value a:hover {
+    text-decoration: underline;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    to {
+      opacity: 1;
+      max-height: 500px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .resource-header {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .resource-buttons {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .detail-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    .detail-value {
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .resource-item {
+      padding: 15px;
+    }
+
+    .resource-buttons {
+      flex-direction: column;
+    }
+
+    .btn-details,
+    .btn-download {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+/* Global Idra modal theme (for page, toolbar, and confirm dialogs) */
+.idra-modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+
+  &.is-visible {
+    display: flex;
+  }
+}
+
+.idra-modal {
+  position: relative;
+  background-color: #fff;
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  width: min(900px, 90%);
+  max-height: 80vh;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+  .idra-modal-theme {
+    h2 {
+      margin: 0;
+    }
+
+  .close {
+    position: static;
+    font-size: 20px;
+    line-height: 1;
+    min-width: 2.2rem;
+    height: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .idra-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .idra-modal-search {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  .idra-modal-scroll {
+    height: 60vh;
+    margin-top: 0;
+    padding: 12px;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    overflow-y: auto;
+  }
+
+  .dataset-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    transition: background-color 0.2s ease;
+  }
+
+  .dataset-item:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .copy-button {
+    margin-left: 10px;
+  }
+}
+
+.delete-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1210;
+
+  &.is-visible {
+    display: flex;
+  }
+}
+
+.delete-confirm-modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  max-width: 520px;
+  width: 90%;
+  padding: 24px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.delete-confirm-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .icon {
+    color: var(--alert);
+    width: 24px;
+    height: 24px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+}
+
+.delete-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Keep Decidim external link warning above Idra modal */
+.reveal-overlay {
+  z-index: 4000 !important;
+}
+
+#external-domain-warning {
+  z-index: 4001 !important;
+}
+
+.reveal {
+  z-index: 4002 !important;
+}

@@ -29,3 +29,9 @@ ro:
               <li>Utilizarea datelor pentru a sprijini discuțiile și analiza.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Ștergi setul de date?
+        body: Sigur vrei să elimini acest set de date din favorite?
+        confirm: Șterge
+        cancel: Anulează

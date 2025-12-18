@@ -39,3 +39,9 @@ de:
               <li>Verwendung zur datengestützten Diskussion und Analyse.</li>
             </ul>
           </div>
+    idra:
+      delete_confirmation:
+        title: Datensatz löschen?
+        body: Möchten Sie diesen Datensatz wirklich aus den Favoriten entfernen?
+        confirm: Löschen
+        cancel: Abbrechen

@@ -39,4 +39,9 @@ en:
               <li>Datasets and data can be used by users to support topic discussion and analysis within the platform, adopting a data-driven approach.</li>
             </ul>
           </div>
-
+    idra:
+      delete_confirmation:
+        title: Delete dataset?
+        body: Are you sure you want to remove this dataset from your saved list?
+        confirm: Delete
+        cancel: Cancel

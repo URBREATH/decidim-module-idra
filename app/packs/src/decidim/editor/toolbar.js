@@ -256,6 +256,52 @@ export default function createEditorToolbar(editor) {
   let modalData = [];
   let hasFetched = false; // Flag to check if data has been fetched
 
+  // Inject minimal modal styles if the pack CSS is not available in this context
+  const ensureEditorModalStyles = () => {
+    if (document.getElementById("idra-editor-modal-styles")) return;
+    const style = document.createElement("style");
+    style.id = "idra-editor-modal-styles";
+    style.textContent = `
+      .idra-modal-overlay {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1200;
+      }
+      .idra-modal-overlay.is-visible {
+        display: flex;
+      }
+      .idra-modal {
+        position: relative;
+        background-color: #fff;
+        padding: 24px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        width: min(900px, 90%);
+        max-height: 80vh;
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .idra-modal-theme h2 { margin: 0; }
+      .idra-modal-theme .close { position: static; font-size: 24px; line-height: 1; }
+      .idra-modal-theme .idra-modal-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .idra-modal-theme .idra-modal-search { padding: 10px; border: 1px solid #ccc; border-radius: 8px; width: 100%; }
+      .idra-modal-theme .idra-modal-scroll { height: 60vh; margin-top: 0; padding: 12px; border: 1px solid lightgray; border-radius: 8px; overflow-y: auto; }
+      .idra-modal-theme .dataset-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; transition: background-color 0.2s ease; }
+      .idra-modal-theme .dataset-item:hover { background-color: rgba(0, 0, 0, 0.06); }
+      .idra-modal-theme .copy-button { margin-left: 10px; }
+      .idra-modal-theme .button { all: unset; }
+    `;
+    document.head.appendChild(style);
+  };
+
   function fetchData() {
     return new Promise((resolve, reject) => {
       if (!hasFetched) { // Check if fetch hasn't been performed yet
@@ -298,72 +344,24 @@ export default function createEditorToolbar(editor) {
   async function openModal(editor) {
     try {
       await fetchData(); // Assicurati che i dati siano stati recuperati
+      ensureEditorModalStyles();
     
-      // Crea il markup HTML per il modale usando gli stili del _datasets_list.html.erb
+      // Modale uniforme con quello di Idra
       const modalHtml = `
-        <div class="modal-overlay" style="
-          position: fixed; 
-          top: 0; 
-          left: 0; 
-          width: 100%; 
-          height: 100%; 
-          background-color: rgba(0, 0, 0, 0.5); 
-          z-index: 1000; 
-          display: flex; 
-          justify-content: center; 
-          align-items: center;">
-            
-          <div class="modal" style="
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-            z-index: 1001;
-            width: 60%;
-            height: 80%;
-            border-radius: 15px;
-            overflow: hidden;">
-            
-            <h2 style="text-align: center; padding: 5px 0 20px 0;">Saved Datasets</h2>
-            
-            <input type="text" id="searchBar" placeholder="Search Datasets" style="
-              width: 100%; 
-              padding: 10px; 
-              box-sizing: border-box; 
-              border: 1px solid #ccc; 
-              border-radius: 5px; 
-              margin-bottom: 10px;">
-              
-            <div id="linksContainer" style="
-              height: 60vh;
-              overflow-y: auto;
-              margin-top: 1em;
-              border: 1px solid lightgray;
-              border-radius: 5px;
-              padding: 5px;">
-              
-              ${modalData.map(element => `
-                <div class="dataset-item" style="
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  margin: 5px 0;
-                  padding: 0 5px;
-                  transition: background-color 0.2s;">
-                  
-                  <a href="${element.url}" target="_blank" style="flex-grow: 1;">${element.title}</a>
-                  
-                  <button class="copy-button button button__secondary outline-none" data-url="${element.url}" data-title="${element.title}" 
-                    style="
-                      margin-left: auto;
-                      border-radius: 5px;
-                      padding: 0 10px;
-                      color: white;
-                      cursor: pointer;
-                      background-color: #2B2347;">Add</button>
+        <div class="idra-modal-overlay modal-overlay is-visible" data-idra-editor-modal>
+          <div class="idra-modal modal idra-modal-theme">
+            <div class="idra-modal-header">
+              <h2>Saved Datasets</h2>
+              <button class="button button__transparent-secondary close" data-idra-modal-close aria-label="Close modal">&times;</button>
+            </div>
+
+            <input type="text" id="searchBar" class="idra-modal-search" placeholder="Search datasets">
+
+            <div id="linksContainer" class="scrollable idra-modal-scroll">
+              ${modalData.map((element) => `
+                <div class="dataset-item">
+                  <a href="${element.url}" target="_blank" rel="nofollow">${element.title}</a>
+                  <button class="copy-button button button__sm" data-url="${element.url}" data-title="${element.title}">Add</button>
                 </div>
               `).join('')}
             </div>
@@ -377,11 +375,11 @@ export default function createEditorToolbar(editor) {
       const modalElement = modalWrapper.firstElementChild;
       document.body.appendChild(modalElement);
     
-      // Aggiungi hover effect ai dataset items
-      const datasetItems = document.querySelectorAll('.dataset-item');
-      datasetItems.forEach(item => {
+      // Aggiungi hover effect ai dataset items del modale
+      const datasetItems = modalElement.querySelectorAll('.dataset-item');
+      datasetItems.forEach((item) => {
         item.addEventListener('mouseenter', () => {
-          item.style.backgroundColor = 'lightgray';
+          item.style.backgroundColor = 'rgba(0, 0, 0, 0.06)';
         });
         item.addEventListener('mouseleave', () => {
           item.style.backgroundColor = '';
@@ -389,17 +387,17 @@ export default function createEditorToolbar(editor) {
       });
     
       // Aggiungi gli event listener
-      const searchBar = document.getElementById('searchBar');
+      const searchBar = modalElement.querySelector('#searchBar');
       searchBar.addEventListener('input', () => {
         const query = searchBar.value.toLowerCase();
-        const listItems = document.querySelectorAll('.dataset-item');
+        const listItems = modalElement.querySelectorAll('.dataset-item');
         listItems.forEach(item => {
           const title = item.querySelector('a').textContent.toLowerCase();
           item.style.display = title.includes(query) ? 'flex' : 'none';
         });
       });
     
-      document.getElementById('linksContainer').addEventListener('click', (event) => {
+      modalElement.querySelector('#linksContainer').addEventListener('click', (event) => {
         if (event.target.classList.contains('copy-button')) {
           const button = event.target;
           const url = button.dataset.url;
@@ -430,12 +428,13 @@ export default function createEditorToolbar(editor) {
         }
       });
     
-      // Chiusura del modale cliccando all'esterno
+      // Chiusura del modale cliccando all'esterno o sul close
       modalElement.addEventListener('click', (event) => {
         if (event.target === modalElement) {
           modalElement.remove();
         }
       });
+      modalElement.querySelector('[data-idra-modal-close]')?.addEventListener('click', () => modalElement.remove());
     
       return modalElement;
     } catch (error) {
