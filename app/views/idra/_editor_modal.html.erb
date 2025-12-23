@@ -1,0 +1,24 @@
+<div class="modal-overlay idra-modal-overlay is-visible" data-idra-editor-modal>
+  <div class="modal idra-modal idra-modal-theme">
+    <div class="idra-modal-header">
+      <h2 class="text-center decorator">Saved Datasets</h2>
+      <button class="button button__transparent-secondary close" data-idra-modal-close aria-label="Close modal">&times;</button>
+    </div>
+
+    <input type="text" id="idra-editor-search" class="idra-modal-search" placeholder="Search Datasets">
+
+    <div id="linksContainer" class="idra-modal-scroll">
+      <% @datasets.each do |dataset| %>
+        <div class="dataset-item">
+          <a href="<%= dataset.url %>" target="_blank" rel="noopener noreferrer nofollow" data-external-link="true">
+            <svg class="external-icon" role="img" aria-hidden="true">
+              <use href="<%= image_path('decidim/remixicon.symbol.svg') %>#ri-external-link-line"></use>
+            </svg>
+            <span><%= dataset.title %></span>
+          </a>
+          <button class="copy-button button button__secondary button__sm" data-url="<%= dataset.url %>" data-title="<%= dataset.title %>">Add</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

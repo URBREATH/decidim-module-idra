@@ -17,13 +17,5 @@
           <p <%= "hidden" if @search_value == '""'%> class="results-count"><%= @total_results %> results found.</p>
         </form>
         <% if @search_value.blank? %>
-          <div class="cloud">
-            <p>
-              <% @tag_cloud_values.each do |tag| %>
-                <% label = tag["facet"].to_s.sub(/\s*\(\d+\)\s*/, "") %>
-                <% weight = (tag["facet"].to_s[/\((\d+)\)/, 1] || tag["count"] || tag["valueCount"] || 0).to_i %>
-                <span class="search-trigger" rel="nofollow" data-weight="<%= weight %>"><%= label %></span>
-              <% end %>
-            </p>
-          </div>
+          <%= render partial: "tag_cloud", locals: { tag_cloud_values: @tag_cloud_values } %>
         <% end %>

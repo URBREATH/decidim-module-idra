@@ -4,7 +4,7 @@
   <div class="results-card">
     <div class="results-card-title">
       <div class="flex-between">
-        <h4><strong><a href="<%= result["landingPage"] %>" target="_blank" rel="nofollow"><%= result["title"] %></a></strong></h4>
+        <h4 class="decorator"><strong><a href="<%= result["landingPage"] %>" target="_blank" rel="noopener noreferrer nofollow"><%= result["title"] %></a></strong></h4>
         <% if current_user %>
           <button
             class="bg-transparent save-dataset-btn <%= 'is-saved' if saved %>"
@@ -62,10 +62,10 @@
                   </div>
 
                   <div class="resource-buttons">
-                    <button class="btn-details show-more-details-button" data-target="show-more-details-<%= index %>-<%= resource_index %>">
+                    <button class="button button__sm button__secondary show-more-details-button" data-target="show-more-details-<%= index %>-<%= resource_index %>">
                       <i class="icon icon-info"></i> Details
                     </button>
-                    <%= link_to obj["downloadURL"], class: "btn-download", target: "_blank", rel: "nofollow" do %>
+                    <%= link_to obj["downloadURL"], class: "button button__sm", target: "_blank", rel: "nofollow" do %>
                       <i class="icon icon-download"></i> Download
                     <% end %>
                   </div>
@@ -160,7 +160,7 @@
         </div>
       </div>
 
-      <a href="#" class="expand-link button small hollow card__button" style="margin-top: 2em; padding: 3px;" data-card-target="full-content-<%= index %>" data-label-open="Read More" data-label-close="Close">Read More</a>
+      <a href="#" class="expand-link button button__sm button__secondary card__button" data-card-target="full-content-<%= index %>" data-label-open="Read More" data-label-close="Close">Read More</a>
 
       <div class="format-container">
         <% displayed_formats = [] %>

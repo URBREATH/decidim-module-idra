@@ -1,9 +1,47 @@
 const csrfToken = () => document.querySelector("meta[name=csrf-token]")?.content
+const createExternalWarning = () => {
+  let overlay = document.getElementById("idra-external-warning")
+  if (overlay) return overlay
+  overlay = document.createElement("div")
+  overlay.id = "idra-external-warning"
+  overlay.className = "external-warning-overlay"
+  overlay.innerHTML = `
+    <div class="external-warning-modal">
+      <h3>External link</h3>
+      <p>You are leaving Decidim to visit an external site. Do you want to continue?</p>
+      <div class="external-actions">
+        <button type="button" class="button button__sm button__secondary" data-idra-external-cancel>Cancel</button>
+        <button type="button" class="button button__sm" data-idra-external-continue>Continue</button>
+      </div>
+    </div>
+  `
+  document.body.appendChild(overlay)
+  return overlay
+}
+
+const showExternalWarning = (url) => {
+  const overlay = createExternalWarning()
+  const cancel = overlay.querySelector("[data-idra-external-cancel]")
+  const cont = overlay.querySelector("[data-idra-external-continue]")
+  const close = () => overlay.classList.remove("is-visible")
+  cancel?.addEventListener("click", close, { once: true })
+  cont?.addEventListener("click", () => {
+    window.open(url, "_blank", "noopener")
+    close()
+  }, { once: true })
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) close()
+  }, { once: true })
+  overlay.classList.add("is-visible")
+}
+
+window.IdraExternalWarning = showExternalWarning
 
 const toggleModal = (open) => {
-  const modal = document.querySelector(".modal-overlay")
+  const modal = document.querySelector(".idra-modal-overlay")
   if (!modal) return
-  modal.style.display = open ? "block" : "none"
+  modal.classList.toggle("is-visible", open)
+  modal.setAttribute("aria-hidden", open ? "false" : "true")
 }
 
 const bindModal = () => {
@@ -15,34 +53,10 @@ const bindModal = () => {
   })
 }
 
-const shuffleCloud = () => {
-  const spans = document.querySelectorAll(".cloud span")
-  if (!spans.length) return
-  const colors = ["--primary", "--secondary", "--warning"]
-  const weights = Array.from(spans).map((span) => parseInt(span.dataset.weight || "0", 10))
-  const minWeight = Math.min(...weights)
-  const maxWeight = Math.max(...weights)
-  const minSize = 14
-  const maxSize = 30
-  spans.forEach((span, index) => {
-    span.style.color = `var(${colors[index % colors.length]})`
-    const weight = parseInt(span.dataset.weight || "0", 10)
-    const fontSize =
-      minWeight === maxWeight
-        ? (minSize + maxSize) / 2
-        : minSize + ((weight - minWeight) / (maxWeight - minWeight)) * (maxSize - minSize)
-    span.style.fontSize = `${fontSize}px`
-  })
-  const shuffled = [...spans].sort(() => Math.random() - 0.5)
-  const parent = document.querySelector(".cloud")
-  parent.innerHTML = ""
-  shuffled.forEach((span) => parent.appendChild(span))
-}
-
 const bindSearchTriggers = () => {
   document.querySelectorAll(".search-trigger").forEach((trigger) => {
     trigger.addEventListener("click", () => {
-      const value = trigger.textContent.trim()
+      const value = (trigger.dataset.label || trigger.textContent.trim().replace(/_/g, " "))
       const input = document.querySelector('input[name="search"]')
       if (!input) return
       input.value = value
@@ -251,6 +265,15 @@ const bindFilters = () => {
   })
 }
 
+const bindExternalLinkWarnings = () => {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a[data-external-link="true"]')
+    if (!link) return
+    event.preventDefault()
+    showExternalWarning(link.href)
+  })
+}
+
 const fetchSearchJson = () => {
   const url = new URL(window.location.href)
   url.searchParams.set("format", "json")
@@ -279,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindSaveButtons()
   bindDatasetList()
   bindFilters()
-  shuffleCloud()
+  bindExternalLinkWarnings()
   fetchSearchJson()
 
   const modal = deleteConfirmModal()

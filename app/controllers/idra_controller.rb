@@ -38,7 +38,7 @@ class IdraController < Decidim::ApplicationController
 
     #form
 
-    @search_value = params[:search].to_s.strip.split(/\s+/).reject(&:blank?).join(',')
+    @search_value = params[:search].to_s.strip
 
     selected_option = params[:field].presence || "title"
     field = selected_option.presence || "title"
@@ -291,7 +291,7 @@ end
 
   def modal_editor
     @datasets = SavedDatasets.where(decidim_user: current_user)
-    render partial: "datasets_list"
+    render partial: "editor_modal"
   end
 
   def datasets

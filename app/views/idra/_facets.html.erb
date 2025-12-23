@@ -5,7 +5,7 @@
   <% if facet_values.present? %>
     <div class="facets-card">
       <% if facet_display_name.present? %>
-        <div class="card-title"><%= facet_display_name %></div>
+        <div class="card-title decorator"><%= facet_display_name %></div>
       <% end %>
 
       <div class="card-body">
@@ -15,7 +15,7 @@
             <% existing_values = params[param_name]&.split(",") || [] %>
             <% unless @selected_filters.any? { |filter| filter.include?(facet["search_value"]) } %>
               <% new_values = (existing_values + [facet["search_value"]]).uniq %>
-              <%= link_to facet["facet"], url_for(request.parameters.merge({ param_name.to_sym => new_values.join(","), page: nil })), rel: "nofollow" %>
+              <%= link_to facet["facet"], url_for(request.parameters.merge({ param_name.to_sym => new_values.join(","), page: nil })), rel: "nofollow", class: "facet-link" %>
             <% end %>
           </div>
         <% end %>
@@ -23,7 +23,7 @@
 
       <div class="show-more-button">
         <% if facet_values.size > 10 %>
-          <a data-facet="<%= facet_type %>" data-label-more="Show all results (<%= facet_values.size %>)" data-label-less="Show less">Show all results (<%= facet_values.size %>)</a>
+          <a class="button button__sm button__secondary" data-facet="<%= facet_type %>" data-label-more="Show all results (<%= facet_values.size %>)" data-label-less="Show less">Show all results (<%= facet_values.size %>)</a>
         <% end %>
         <span <%= "hidden" if facet_values.size > 0 %>>No results</span>
       </div>

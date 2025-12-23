@@ -1,0 +1,38 @@
+<% palette = [
+  { color: "var(--primary)", highlight: "#ffe96a" },
+  { color: "var(--secondary)", highlight: "#c4ecff" },
+  { color: "var(--warning, #f5c400)", highlight: "#ffd65c" }
+] %>
+<% weights = tag_cloud_values.map do |tag|
+  (tag["facet"].to_s[/\((\d+)\)/, 1] || tag["count"] || tag["valueCount"] || 0).to_i
+end %>
+<% min_weight = weights.min || 0 %>
+<% max_weight = weights.max || 0 %>
+<% min_size = 14 %>
+<% max_size = 30 %>
+
+<div class="cloud">
+  <p>
+    <% tag_cloud_values.shuffle.each_with_index do |tag, index| %>
+      <% raw_label = tag["facet"].to_s.sub(/\s*\(\d+\)\s*/, "") %>
+      <% display_label = raw_label.gsub(/\s+/, "_") %>
+      <% weight = (tag["facet"].to_s[/\((\d+)\)/, 1] || tag["count"] || tag["valueCount"] || 0).to_i %>
+      <% font_size =
+        if min_weight == max_weight
+          (min_size + max_size) / 2.0
+        else
+          min_size + ((weight - min_weight).to_f / (max_weight - min_weight)) * (max_size - min_size)
+        end
+      %>
+      <% palette_entry = palette[index % palette.size] %>
+      <span
+        class="search-trigger"
+        rel="nofollow"
+        data-weight="<%= weight %>"
+        data-label="<%= raw_label %>"
+        style="color: <%= palette_entry[:color] %>; --tag-highlight: <%= palette_entry[:highlight] %>; font-size: <%= font_size.round(2) %>px;">
+        <%= display_label %>
+      </span>
+    <% end %>
+  </p>
+</div>
