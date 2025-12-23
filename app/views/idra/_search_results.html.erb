@@ -4,7 +4,7 @@
   <div class="results-card">
     <div class="results-card-title">
       <div class="flex-between">
-        <h4 class="decorator"><strong><a href="<%= result["landingPage"] %>" target="_blank" rel="noopener noreferrer nofollow"><%= result["title"] %></a></strong></h4>
+        <h4 class="title-decorator"><strong><a href="<%= result["landingPage"] %>" target="_blank" rel="noopener noreferrer nofollow"><%= result["title"] %></a></strong></h4>
         <% if current_user %>
           <button
             class="bg-transparent save-dataset-btn <%= 'is-saved' if saved %>"
@@ -63,10 +63,16 @@
 
                   <div class="resource-buttons">
                     <button class="button button__sm button__secondary show-more-details-button" data-target="show-more-details-<%= index %>-<%= resource_index %>">
-                      <i class="icon icon-info"></i> Details
+                      <svg width="1em" height="1em" role="img" aria-hidden="true">
+                        <use href="<%= "#{asset_pack_path('media/images/remixicon.symbol.svg')}#ri-information-line" %>"></use>
+                      </svg>
+                      Details
                     </button>
-                    <%= link_to obj["downloadURL"], class: "button button__sm", target: "_blank", rel: "nofollow" do %>
-                      <i class="icon icon-download"></i> Download
+                    <%= link_to obj["downloadURL"], class: "button button__sm button__transparent-secondary flex-none", target: "_blank", rel: "noopener noreferrer", title: "Scarica file", data: { external_link: false } do %>
+                      Scarica file
+                      <svg width="1em" height="1em" role="img" aria-hidden="true">
+                        <use href="<%= "#{asset_pack_path('media/images/remixicon.symbol.svg')}#ri-download-line" %>"></use>
+                      </svg>
                     <% end %>
                   </div>
 

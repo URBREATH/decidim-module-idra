@@ -237,7 +237,7 @@ const bindSaveButtons = () => {
 }
 
 const bindDatasetList = () => {
-  const searchBar = document.getElementById("search-bar")
+  const searchBar = document.getElementById("idra-datasets-search")
   const list = document.getElementById("datasets-list")
   const counter = { value: Number(document.querySelector("[data-idra-root]")?.dataset.savedCount || 0) }
   if (searchBar && list) {

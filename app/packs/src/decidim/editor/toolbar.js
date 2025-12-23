@@ -1,5 +1,6 @@
 import { getDictionary } from "src/decidim/i18n";
 import html from "src/decidim/editor/utilities/html";
+import "stylesheets/decidim/idra/idra.scss";
 
 import iconsUrl from "images/decidim/remixicon.symbol.svg";
 
@@ -293,90 +294,8 @@ export default function createEditorToolbar(editor) {
     render()
   ;
 
-  // Inject modal styles (aligned with Idra) if not already available in this context
-  const ensureEditorModalStyles = () => {
-    if (document.getElementById("idra-editor-modal-styles")) return;
-    const style = document.createElement("style");
-    style.id = "idra-editor-modal-styles";
-    style.textContent = `
-      .idra-modal-overlay {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 1200;
-      }
-      .idra-modal-overlay.is-visible { display: flex; }
-      .idra-modal {
-        position: relative;
-        background-color: #fff;
-        padding: 28px 28px 24px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-        width: min(1080px, 95%);
-        max-height: 85vh;
-        border-radius: 16px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      .idra-modal-theme h2 {
-        margin: 0;
-        text-align: center;
-        font-size: 24px;
-        font-weight: 700;
-      }
-      .idra-modal-theme .close { position: static; font-size: 24px; line-height: 1; }
-      .idra-modal-theme .idra-modal-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-      .idra-modal-theme .idra-modal-header h2 { flex: 1; text-align: center; }
-      .idra-modal-theme .idra-modal-search {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        width: 320px;
-        max-width: 100%;
-        align-self: flex-start;
-      }
-      .idra-modal-theme .idra-modal-scroll { height: 60vh; margin-top: 0; padding: 12px; border: 1px solid lightgray; border-radius: 8px; overflow-y: auto; }
-      .idra-modal-theme .dataset-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; transition: background-color 0.2s ease; }
-      .idra-modal-theme .dataset-item a {
-        font-weight: 700;
-        color: var(--text-primary, #333);
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .idra-modal-theme .dataset-item a:hover { color: var(--primary, #0059b3) !important; }
-      .idra-modal-theme .dataset-item .external-icon { width: 16px; height: 16px; color: inherit; fill: currentColor; }
-      .idra-modal-theme .dataset-item:hover { background-color: rgba(0, 0, 0, 0.06); }
-      .idra-modal-theme .copy-button { margin-left: 10px; }
-      .idra-modal-theme .button {
-        background: transparent;
-        border: 1px solid transparent;
-        color: var(--secondary, #5b4db3);
-        transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-      }
-      .idra-modal-theme .button:hover {
-        background: rgba(91, 77, 179, 0.08);
-        border-color: var(--secondary, #5b4db3);
-        color: var(--secondary, #5b4db3);
-      }
-      .idra-modal-theme .button__secondary {
-        background: transparent;
-        color: var(--secondary, #5b4db3);
-      }
-    `;
-    document.head.appendChild(style);
-  };
-
   async function openModal(editor) {
     try {
-      ensureEditorModalStyles();
       const response = await fetch("/idra_modal_editor", { headers: { Accept: "text/html" } })
       if (!response.ok) throw new Error("Failed to fetch the updated content")
       const html = await response.text()
@@ -386,19 +305,8 @@ export default function createEditorToolbar(editor) {
       if (!modalElement) return null
       document.body.appendChild(modalElement)
     
-      // Aggiungi hover effect ai dataset items del modale
-      const datasetItems = modalElement.querySelectorAll('.dataset-item');
-      datasetItems.forEach((item) => {
-        item.addEventListener('mouseenter', () => {
-          item.style.backgroundColor = 'rgba(0, 0, 0, 0.06)';
-        });
-        item.addEventListener('mouseleave', () => {
-          item.style.backgroundColor = '';
-        });
-      });
-    
       // Aggiungi gli event listener
-      const searchBar = modalElement.querySelector('#idra-editor-search');
+      const searchBar = modalElement.querySelector('#idra-datasets-search');
       searchBar?.addEventListener('input', () => {
         const query = searchBar.value.toLowerCase();
         const listItems = modalElement.querySelectorAll('.dataset-item');
