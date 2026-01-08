@@ -40,6 +40,7 @@ it:
             </ul>
           </div>
     idra:
+      download_file: Scarica file
       delete_confirmation:
         title: Eliminare il dataset?
         body: Sei sicuro di voler rimuovere questo dataset dai preferiti?

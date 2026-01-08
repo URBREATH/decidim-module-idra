@@ -30,6 +30,7 @@ ro:
             </ul>
           </div>
     idra:
+      download_file: Descarcă fișierul
       delete_confirmation:
         title: Ștergi setul de date?
         body: Sigur vrei să elimini acest set de date din favorite?

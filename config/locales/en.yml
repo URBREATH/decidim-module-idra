@@ -40,6 +40,7 @@ en:
             </ul>
           </div>
     idra:
+      download_file: Download file
       delete_confirmation:
         title: Delete dataset?
         body: Are you sure you want to remove this dataset from your saved list?

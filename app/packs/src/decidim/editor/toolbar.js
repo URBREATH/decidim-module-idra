@@ -317,8 +317,8 @@ export default function createEditorToolbar(editor) {
       });
 
       modalElement.querySelector('#linksContainer').addEventListener('click', (event) => {
-        if (event.target.classList.contains('copy-button')) {
-          const button = event.target;
+        const button = event.target.closest('.copy-button');
+        if (button) {
           const url = button.dataset.url;
           const title = button.dataset.title;
           

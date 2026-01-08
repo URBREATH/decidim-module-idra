@@ -30,6 +30,7 @@ da:
             </ul>
           </div>
     idra:
+      download_file: Hent fil
       delete_confirmation:
         title: Slet datasættet?
         body: Er du sikker på, at du vil fjerne dette datasæt fra dine favoritter?

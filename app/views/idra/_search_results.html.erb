@@ -68,8 +68,8 @@
                       </svg>
                       Details
                     </button>
-                    <%= link_to obj["downloadURL"], class: "button button__sm button__transparent-secondary flex-none", target: "_blank", rel: "noopener noreferrer", title: "Scarica file", data: { external_link: false } do %>
-                      Scarica file
+                    <%= link_to obj["downloadURL"], class: "button button__sm button__transparent-secondary flex-none", target: "_blank", rel: "noopener noreferrer", title: t("decidim.idra.download_file"), data: { external_link: false } do %>
+                      <%= t("decidim.idra.download_file") %>
                       <svg width="1em" height="1em" role="img" aria-hidden="true">
                         <use href="<%= "#{asset_pack_path('media/images/remixicon.symbol.svg')}#ri-download-line" %>"></use>
                       </svg>

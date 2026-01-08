@@ -28,7 +28,7 @@
 
   .search-form input[type="text"] {
     padding: 10px;
-    border: 1px solid white;
+    border: 1px solid #222;
     border-radius: 5px;
     color: black;
     width: 100%;
@@ -110,7 +110,11 @@
     border-radius: 10px 10px 0 0;
     padding: 12px 14px;
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: 1.2rem;
+  }
+
+  .card-title .title-decorator {
+    font-size: inherit;
   }
 
   .card-body {
@@ -145,14 +149,16 @@
 
   .results-card-title a {
     color: var(--primary);
-    text-decoration: none;
   }
 
   .results-card-title h4 {
     margin: 0;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    padding-bottom: 6px;
+  }
+
+  .results-card-title .title-decorator {
+    display: inline-block;
   }
 
   .save-dataset-btn {
@@ -307,7 +313,7 @@
   .format-box {
     border: 1px solid #8a8a8a;
     padding: 6px 12px;
-    color: var(--text-primary);
+    color: #4a4a4a;
     border-radius: 16px;
     background: transparent;
     font-weight: 700;
@@ -425,15 +431,24 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    color:var(--text-primary);
   }
 
   .dataset-item:hover {
-    background-color: lightgray;
+    background-color: rgb(132, 43, 43);
+    color: var(--text-primary)
   }
 
   .dataset-item a {
     flex-grow: 1;
+    color:#0059b3;
   }
+
+   .dataset-item a:hover {
+    flex-grow: 1;
+    color:#00b300;
+  }
+
 
   .dataset-item button {
     margin-left: auto;
@@ -699,6 +714,11 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: flex-start;
+}
+
+.idra-modal > * {
+  width: 100%;
 }
 
   .idra-modal-theme {
@@ -734,6 +754,7 @@
     justify-content: center;
     gap: 4px;
     margin-bottom: 12px;
+    width: 100%;
 
     h2 {
       flex: 1;
@@ -760,9 +781,9 @@
     border-radius: 8px;
     width: 320px;
     max-width: 100%;
-    align-self: center;
+    align-self: flex-start;
     display: block;
-    margin: 4px auto 12px;
+    margin: 4px 0 12px;
   }
 
   .idra-modal-scroll {

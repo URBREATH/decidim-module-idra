@@ -30,6 +30,7 @@ fi:
             </ul>
           </div>
     idra:
+      download_file: Lataa tiedosto
       delete_confirmation:
         title: Poistetaanko aineisto?
         body: Haluatko varmasti poistaa tämän aineiston suosikeista?

@@ -30,6 +30,7 @@ et:
             </ul>
           </div>
     idra:
+      download_file: Laadi fail alla
       delete_confirmation:
         title: Kustutada andmekogum?
         body: Kas soovid selle andmekogumi eemaldada oma lemmikutest?

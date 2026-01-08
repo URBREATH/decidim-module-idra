@@ -40,6 +40,7 @@ fr:
             </ul>
           </div>
     idra:
+      download_file: Télécharger le fichier
       delete_confirmation:
         title: Supprimer le jeu de données ?
         body: Voulez-vous vraiment supprimer ce jeu de données de vos favoris ?

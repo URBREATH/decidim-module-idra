@@ -30,6 +30,7 @@ nl:
             </ul>
           </div>
     idra:
+      download_file: Bestand downloaden
       delete_confirmation:
         title: Smazat dataset?
         body: Opravdu chcete tento dataset odebrat z oblíbených?

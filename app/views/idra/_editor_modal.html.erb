@@ -1,21 +1,26 @@
 <div class="modal-overlay idra-modal-overlay is-visible" data-idra-editor-modal>
   <div class="modal idra-modal idra-modal-theme">
-    <div class="idra-modal-header">
-      <h2 class="text-center title-decorator">Saved Datasets</h2>
-      <button class="button button__transparent-secondary close" data-idra-modal-close aria-label="Close modal">&times;</button>
-    </div>
-
-    <input type="text" id="idra-datasets-search" class="idra-modal-search" placeholder="Search Datasets">
-
-    <div id="linksContainer" class="idra-modal-scroll scrollable">
-      <% @datasets.each do |dataset| %>
-        <div class="dataset-item">
-          <a href="<%= dataset.url %>" target="_blank" rel="noopener noreferrer nofollow" data-external-link="true">
-            <span><%= dataset.title %></span>
-          </a>
-          <button class="copy-button button button__secondary button__sm" data-url="<%= dataset.url %>" data-title="<%= dataset.title %>">Add</button>
-        </div>
-      <% end %>
+    <div id="datasets-list">
+      <div class="idra-modal-header">
+        <h2 class="text-center title-decorator">Saved Datasets</h2>
+        <button class="button button__transparent-secondary close" data-idra-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <input type="text" id="idra-datasets-search" class="idra-modal-search" placeholder="Search Datasets">
+      <div id="linksContainer" class="scrollable idra-modal-scroll">
+        <% if @datasets.present? %>
+          <% @datasets.each do |dataset| %>
+            <div class="dataset-item">
+              <a href="<%= dataset.url %>" target="_blank" rel="noopener noreferrer nofollow" data-external-link="true">
+                <span><%= dataset.title %></span>
+              </a>
+              <%= button_tag type: "button", class: "button delete-btn copy-button", data: { url: dataset.url, title: dataset.title }, aria: { label: "Add dataset" } do %>
+                <%= icon "clipboard-line", class: "icon" %>
+                <span class="sr-only">Add</span>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
