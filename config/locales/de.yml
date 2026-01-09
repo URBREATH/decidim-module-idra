@@ -41,6 +41,7 @@ de:
           </div>
     idra:
       download_file: Datei herunterladen
+      clear_filters: Filter entfernen
       delete_confirmation:
         title: Datensatz löschen?
         body: Möchten Sie diesen Datensatz wirklich aus den Favoriten entfernen?

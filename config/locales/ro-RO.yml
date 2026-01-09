@@ -31,6 +31,7 @@ ro:
           </div>
     idra:
       download_file: Descarcă fișierul
+      clear_filters: Elimină filtrele
       delete_confirmation:
         title: Ștergi setul de date?
         body: Sigur vrei să elimini acest set de date din favorite?

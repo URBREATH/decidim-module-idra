@@ -41,6 +41,7 @@ fr:
           </div>
     idra:
       download_file: Télécharger le fichier
+      clear_filters: Effacer les filtres
       delete_confirmation:
         title: Supprimer le jeu de données ?
         body: Voulez-vous vraiment supprimer ce jeu de données de vos favoris ?

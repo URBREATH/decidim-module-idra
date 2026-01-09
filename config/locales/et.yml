@@ -31,6 +31,7 @@ et:
           </div>
     idra:
       download_file: Laadi fail alla
+      clear_filters: Tühjenda filtrid
       delete_confirmation:
         title: Kustutada andmekogum?
         body: Kas soovid selle andmekogumi eemaldada oma lemmikutest?

@@ -1,5 +1,25 @@
 .idra-page {
   --idra-star-color: #f5c400;
+  --idra-facet-tags-bg: rgba(14, 165, 233, 0.12);
+  --idra-facet-tags-border: #0EA5E9;
+  --idra-facet-tags-text: #0EA5E9;
+  --idra-facet-tags-hover: rgba(14, 165, 233, 0.2);
+  --idra-facet-formats-bg: rgba(99, 102, 241, 0.12);
+  --idra-facet-formats-border: #6366F1;
+  --idra-facet-formats-text: #6366F1;
+  --idra-facet-formats-hover: rgba(99, 102, 241, 0.2);
+  --idra-facet-licenses-bg: rgba(20, 184, 166, 0.12);
+  --idra-facet-licenses-border: #14B8A6;
+  --idra-facet-licenses-text: #14B8A6;
+  --idra-facet-licenses-hover: rgba(20, 184, 166, 0.2);
+  --idra-facet-catalogues-bg: rgba(245, 158, 11, 0.14);
+  --idra-facet-catalogues-border: #F59E0B;
+  --idra-facet-catalogues-text: #F59E0B;
+  --idra-facet-catalogues-hover: rgba(245, 158, 11, 0.24);
+  --idra-facet-categories-bg: rgba(34, 197, 94, 0.12);
+  --idra-facet-categories-border: #22C55E;
+  --idra-facet-categories-text: #22C55E;
+  --idra-facet-categories-hover: rgba(34, 197, 94, 0.2);
 
   .container {
     max-width: 85%;
@@ -130,8 +150,92 @@
     display: none;
   }
 
+  .facet-item {
+    display: flex;
+  }
+
+  .facet-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+  }
+
+  .facet-link:hover,
+  .facet-link:focus-visible {
+    transform: translateY(-1px);
+    text-decoration: underline;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  .facet-link--tags {
+    background: var(--idra-facet-tags-bg);
+    border-color: var(--idra-facet-tags-border);
+    color: var(--idra-facet-tags-text);
+  }
+
+  .facet-link--tags:hover,
+  .facet-link--tags:focus-visible {
+    background: var(--idra-facet-tags-hover);
+    color: var(--idra-facet-tags-text);
+  }
+
+  .facet-link--formats {
+    background: var(--idra-facet-formats-bg);
+    border-color: var(--idra-facet-formats-border);
+    color: var(--idra-facet-formats-text);
+  }
+
+  .facet-link--formats:hover,
+  .facet-link--formats:focus-visible {
+    background: var(--idra-facet-formats-hover);
+    color: var(--idra-facet-formats-text);
+  }
+
+  .facet-link--licenses {
+    background: var(--idra-facet-licenses-bg);
+    border-color: var(--idra-facet-licenses-border);
+    color: var(--idra-facet-licenses-text);
+  }
+
+  .facet-link--licenses:hover,
+  .facet-link--licenses:focus-visible {
+    background: var(--idra-facet-licenses-hover);
+    color: var(--idra-facet-licenses-text);
+  }
+
+  .facet-link--catalogues {
+    background: var(--idra-facet-catalogues-bg);
+    border-color: var(--idra-facet-catalogues-border);
+    color: var(--idra-facet-catalogues-text);
+  }
+
+  .facet-link--catalogues:hover,
+  .facet-link--catalogues:focus-visible {
+    background: var(--idra-facet-catalogues-hover);
+    color: var(--idra-facet-catalogues-text);
+  }
+
+  .facet-link--categories {
+    background: var(--idra-facet-categories-bg);
+    border-color: var(--idra-facet-categories-border);
+    color: var(--idra-facet-categories-text);
+  }
+
+  .facet-link--categories:hover,
+  .facet-link--categories:focus-visible {
+    background: var(--idra-facet-categories-hover);
+    color: var(--idra-facet-categories-text);
+  }
+
   .results-card {
     background: #fff;
+    --idra-card-bg: #fff;
     border: 1px solid #e6e6e6;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -148,7 +252,7 @@
   }
 
   .results-card-title a {
-    color: var(--primary);
+    color: var(--secondary);
   }
 
   .results-card-title h4 {
@@ -159,6 +263,14 @@
 
   .results-card-title .title-decorator {
     display: inline-block;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+  }
+
+  .results-card-title .title-decorator::after {
+    top: calc(100% + 2px);
   }
 
   .save-dataset-btn {
@@ -177,6 +289,8 @@
   .save-dataset-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    color: var(--idra-star-color);
+    border-color: var(--idra-star-color);
   }
 
   .save-dataset-btn.is-saved {
@@ -255,42 +369,139 @@
     padding: 6px 12px;
   }
 
+  .results-card-body .truncated-content {
+    position: relative;
+    color: var(--text-secondary, #64748b);
+    max-height: 6.6em;
+    overflow: hidden;
+  }
+
+  .results-card-body .truncated-content::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2.4em;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--idra-card-bg, #fff));
+    pointer-events: none;
+  }
+
   .filter-box {
     display: flex;
     align-items: center;
     margin-top: 20px;
-    max-width: 1200px;
+    width: 100%;
+    max-width: 100%;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
   }
 
   .filter-item {
-    margin-right: 5px;
-    background: var(--secondary);
-    color: #fff;
-    padding: 8px 14px 8px 18px;
-    border-radius: 20px;
-    height: 40px;
+    border: 1px solid transparent;
+    background: var(--idra-filter-bg, transparent);
+    padding: 6px 12px 6px 14px;
+    border-radius: 999px;
+    min-height: 32px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
   }
 
   .filter-item:hover {
-    transform: scale(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14);
+    background: var(--idra-filter-hover, var(--idra-filter-bg, transparent));
   }
 
-  .filter-item a {
+  .filter-label {
+    font-weight: 600;
+  }
+
+  .filter-remove {
     font-size: 18px;
-    color: #fff;
     text-decoration: none;
-    padding: 0 6px 2px;
-    background-color: transparent;
+    padding: 0 4px 2px;
+    background: transparent;
+    line-height: 1;
+    transition: transform 0.15s ease, color 0.15s ease, opacity 0.15s ease;
   }
 
-  .filter-item a:hover {
-    color: var(--primary);
+  .filter-remove:hover,
+  .filter-remove:focus-visible {
+    text-decoration: none;
+    transform: scale(1.2);
+    color: var(--text-primary, #222);
+  }
+
+  .filters-clear {
+    border-radius: 999px;
+    padding: 6px 14px;
+    white-space: nowrap;
+    border: 1px solid #c0392b !important;
+    color: #c0392b !important;
+    background: transparent !important;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .filters-clear:hover,
+  .filters-clear:focus-visible {
+    background: rgba(192, 57, 43, 0.12) !important;
+    border-color: #c0392b !important;
+    color: #c0392b !important;
+  }
+
+  .filters-clear-row {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    width: 100%;
+  }
+
+  .filter-item--tags {
+    --idra-filter-bg: var(--idra-facet-tags-bg);
+    --idra-filter-hover: var(--idra-facet-tags-hover);
+    border-color: var(--idra-facet-tags-border);
+    color: var(--idra-facet-tags-text);
+  }
+
+  .filter-item--formats {
+    --idra-filter-bg: var(--idra-facet-formats-bg);
+    --idra-filter-hover: var(--idra-facet-formats-hover);
+    border-color: var(--idra-facet-formats-border);
+    color: var(--idra-facet-formats-text);
+  }
+
+  .filter-item--licenses {
+    --idra-filter-bg: var(--idra-facet-licenses-bg);
+    --idra-filter-hover: var(--idra-facet-licenses-hover);
+    border-color: var(--idra-facet-licenses-border);
+    color: var(--idra-facet-licenses-text);
+  }
+
+  .filter-item--catalogues {
+    --idra-filter-bg: var(--idra-facet-catalogues-bg);
+    --idra-filter-hover: var(--idra-facet-catalogues-hover);
+    border-color: var(--idra-facet-catalogues-border);
+    color: var(--idra-facet-catalogues-text);
+  }
+
+  .filter-item--categories {
+    --idra-filter-bg: var(--idra-facet-categories-bg);
+    --idra-filter-hover: var(--idra-facet-categories-hover);
+    border-color: var(--idra-facet-categories-border);
+    color: var(--idra-facet-categories-text);
+  }
+
+  .filter-item--tags .filter-remove,
+  .filter-item--formats .filter-remove,
+  .filter-item--licenses .filter-remove,
+  .filter-item--catalogues .filter-remove,
+  .filter-item--categories .filter-remove {
+    color: inherit;
   }
 
   .show-more-button {

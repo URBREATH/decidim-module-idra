@@ -31,6 +31,7 @@ fi:
           </div>
     idra:
       download_file: Lataa tiedosto
+      clear_filters: Tyhjennä suodattimet
       delete_confirmation:
         title: Poistetaanko aineisto?
         body: Haluatko varmasti poistaa tämän aineiston suosikeista?

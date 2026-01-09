@@ -1,30 +1,29 @@
-<% facets = {
-  tags: @tags_values,
-  formats: @formats_values,
-  licenses: @licenses_values,
-  catalogues: @catalogues_values,
-  categories: @categories_values
+<% filter_params = {
+  tags: "tags_value",
+  formats: "formats_value",
+  licenses: "licenses_value",
+  catalogues: "catalogues_value",
+  categories: "datasetThemes"
 } %>
+<% filters_present = filter_params.values.any? { |key| params[key].to_s.split(",").reject(&:blank?).any? } %>
 
 <div class="filter-box">
-  <% if @selected_filters.present? %>
-    <% @selected_filters.each do |obj| %>
-      <% obj.delete("") %>
-      <% obj.each do |filter| %>
-        <div class="filter-item">
-          <% facets.each do |facet_name, facet_values| %>
-            <% facet_values.each do |fv| %>
-              <% if fv.any? { |x| x.include?(filter) } %>
-                <%= filter %>
-                <% param_name = facet_name == :categories ? "datasetThemes" : "#{facet_name}_value" %>
-                <% current_value = params[param_name] || "" %>
-                <% new_value = current_value.split(",").reject { |v| v == filter }.join(",") %>
-                <%= link_to "x", url_for(request.parameters.merge(param_name.to_sym => new_value.presence)), rel: "nofollow" %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
+  <% filter_params.each do |facet_name, param_name| %>
+    <% selected_values = params[param_name].to_s.split(",").reject(&:blank?) %>
+    <% next if selected_values.empty? %>
+    <% selected_values.each do |filter| %>
+      <div class="filter-item filter-item--<%= facet_name %>">
+        <span class="filter-label"><%= filter %></span>
+        <% current_value = params[param_name].to_s %>
+        <% new_value = current_value.split(",").reject { |v| v == filter }.join(",") %>
+        <%= link_to "x", url_for(request.parameters.merge(param_name.to_sym => new_value.presence)), rel: "nofollow", class: "filter-remove", aria: { label: "Remove #{filter}" } %>
+      </div>
     <% end %>
+  <% end %>
+
+  <% if filters_present %>
+    <div class="filters-clear-row">
+      <%= link_to t("decidim.idra.clear_filters"), url_for(request.parameters.except(*filter_params.values, :page, :start)), rel: "nofollow", class: "button button__sm button__transparent-secondary filters-clear" %>
+    </div>
   <% end %>
 </div>

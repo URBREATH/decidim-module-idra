@@ -4,7 +4,7 @@
   <div class="results-card">
     <div class="results-card-title">
       <div class="flex-between">
-        <h4 class="title-decorator"><strong><a href="<%= result["landingPage"] %>" target="_blank" rel="noopener noreferrer nofollow"><%= result["title"] %></a></strong></h4>
+        <h4><strong><a href="<%= result["landingPage"] %>" target="_blank" rel="noopener noreferrer nofollow" data-external-link="text-only"><span class="title-decorator"><%= result["title"] %></span></a></strong></h4>
         <% if current_user %>
           <button
             class="bg-transparent save-dataset-btn <%= 'is-saved' if saved %>"

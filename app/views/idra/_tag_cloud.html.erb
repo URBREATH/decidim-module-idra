@@ -1,9 +1,10 @@
+<% cloud_values = Array(tag_cloud_values).first(30) %>
 <% palette = [
   { color: "var(--primary)", highlight: "#ffe96a" },
   { color: "var(--secondary)", highlight: "#c4ecff" },
   { color: "var(--warning, #f5c400)", highlight: "#ffd65c" }
 ] %>
-<% weights = tag_cloud_values.map do |tag|
+<% weights = cloud_values.map do |tag|
   (tag["facet"].to_s[/\((\d+)\)/, 1] || tag["count"] || tag["valueCount"] || 0).to_i
 end %>
 <% min_weight = weights.min || 0 %>
@@ -13,7 +14,7 @@ end %>
 
 <div class="cloud">
   <p>
-    <% tag_cloud_values.shuffle.each_with_index do |tag, index| %>
+    <% cloud_values.shuffle.each_with_index do |tag, index| %>
       <% raw_label = tag["facet"].to_s.sub(/\s*\(\d+\)\s*/, "") %>
       <% display_label = raw_label.gsub(/\s+/, "_") %>
       <% weight = (tag["facet"].to_s[/\((\d+)\)/, 1] || tag["count"] || tag["valueCount"] || 0).to_i %>

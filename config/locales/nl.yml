@@ -31,6 +31,7 @@ nl:
           </div>
     idra:
       download_file: Bestand downloaden
+      clear_filters: Filters wissen
       delete_confirmation:
         title: Dataset verwijderen?
         body: Weet je zeker dat je deze dataset uit je favorieten wilt verwijderen?

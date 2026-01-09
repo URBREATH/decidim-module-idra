@@ -31,6 +31,7 @@ nl:
           </div>
     idra:
       download_file: Bestand downloaden
+      clear_filters: Vymazat filtry
       delete_confirmation:
         title: Smazat dataset?
         body: Opravdu chcete tento dataset odebrat z oblíbených?

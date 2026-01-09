@@ -89,8 +89,13 @@ const bindExpandCards = () => {
       event.preventDefault()
       const target = document.getElementById(link.dataset.cardTarget)
       if (!target) return
+      const card = link.closest(".results-card")
+      const truncated = card ? card.querySelector(".truncated-content") : null
       const isHidden = target.style.display === "none" || target.style.display === ""
       target.style.display = isHidden ? "block" : "none"
+      if (truncated) {
+        truncated.style.display = isHidden ? "none" : ""
+      }
       link.textContent = isHidden ? link.dataset.labelClose : link.dataset.labelOpen
     })
   })
