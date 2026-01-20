@@ -22,6 +22,20 @@ bin/rails decidim_idra:install:migrations
 bin/rails db:migrate
 ```
 
+## Configuration
+
+You can configure Idra defaults in an initializer, for example `config/initializers/decidim_idra.rb`:
+
+```ruby
+Decidim::Idra.open_timeout = 5
+Decidim::Idra.read_timeout = 10
+Decidim::Idra.default_rows = 5
+Decidim::Idra.catalogues_cache_ttl = 600
+Decidim::Idra.allowed_api_hosts = ["idra.example.org"]
+```
+
+You can also provide extra allowed API hosts via `IDRA_ALLOWED_API_HOSTS` (comma-separated).
+
 ## Contributing
 
 Contributions are welcome !

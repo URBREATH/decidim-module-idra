@@ -5,25 +5,45 @@
   catalogues: "catalogues_value",
   categories: "datasetThemes"
 } %>
-<% filters_present = filter_params.values.any? { |key| params[key].to_s.split(",").reject(&:blank?).any? } %>
+<% normalize_values = ->(value) { Array(value).flat_map { |item| item.to_s.split(",") }.map(&:strip).reject(&:blank?) } %>
+<% tags_only = normalize_values.call(params[:tags_value]) %>
+<% search_terms = normalize_values.call(@search_terms) %>
+<% tags_values = (tags_only + search_terms).uniq %>
+<% other_filters_present = filter_params.except(:tags).values.any? { |key| normalize_values.call(params[key]).any? } %>
+<% filters_present = tags_values.any? || other_filters_present %>
 
 <div class="filter-box">
   <% filter_params.each do |facet_name, param_name| %>
-    <% selected_values = params[param_name].to_s.split(",").reject(&:blank?) %>
+    <% selected_values = facet_name == :tags ? tags_values : normalize_values.call(params[param_name]) %>
     <% next if selected_values.empty? %>
     <% selected_values.each do |filter| %>
       <div class="filter-item filter-item--<%= facet_name %>">
         <span class="filter-label"><%= filter %></span>
-        <% current_value = params[param_name].to_s %>
-        <% new_value = current_value.split(",").reject { |v| v == filter }.join(",") %>
-        <%= link_to "x", url_for(request.parameters.merge(param_name.to_sym => new_value.presence)), rel: "nofollow", class: "filter-remove", aria: { label: "Remove #{filter}" } %>
+        <% if facet_name == :tags %>
+          <% new_tag_values = tags_only.reject { |value| value == filter } %>
+          <% new_search_terms = search_terms.reject { |value| value == filter } %>
+          <%= link_to "x",
+            url_for(
+              request.parameters.merge(
+                param_name.to_sym => new_tag_values.presence,
+                search: (new_search_terms.presence ? new_search_terms.join(", ") : nil)
+              )
+            ),
+            rel: "nofollow",
+            class: "filter-remove",
+            aria: { label: "Remove #{filter}" } %>
+        <% else %>
+          <% current_values = normalize_values.call(params[param_name]) %>
+          <% new_values = current_values.reject { |v| v == filter } %>
+          <%= link_to "x", url_for(request.parameters.merge(param_name.to_sym => new_values.presence)), rel: "nofollow", class: "filter-remove", aria: { label: "Remove #{filter}" } %>
+        <% end %>
       </div>
     <% end %>
   <% end %>
 
   <% if filters_present %>
     <div class="filters-clear-row">
-      <%= link_to t("decidim.idra.clear_filters"), url_for(request.parameters.except(*filter_params.values, :page, :start)), rel: "nofollow", class: "button button__sm button__transparent-secondary filters-clear" %>
+      <%= link_to t("decidim.idra.clear_filters"), url_for(request.parameters.except(*filter_params.values, :search, :page, :start)), rel: "nofollow", class: "button button__sm button__transparent-secondary filters-clear" %>
     </div>
   <% end %>
 </div>
