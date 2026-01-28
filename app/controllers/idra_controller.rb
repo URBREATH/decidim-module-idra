@@ -151,8 +151,13 @@ class IdraController < Decidim::ApplicationController
     filters = []
     @search_terms = split_search_terms(@search_value).uniq
 
+    # Always include a search filter to preserve the legacy Idra API behavior.
+    filters << {
+      "field": "ALL",
+      "value": @search_value.to_s,
+    }
+
     @tags_value = normalize_param_values(params[:tags_value])
-    @tags_value = (@tags_value + @search_terms).uniq
     append_filter(filters, "tags", @tags_value)
 
     @formats_value = normalize_param_values(params[:formats_value])
