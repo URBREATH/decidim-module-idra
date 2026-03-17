@@ -15,7 +15,7 @@
   
     <% if current_user %>
       <!-- Bottone per aprire il modal -->
-      <button id="openCustomModalButton" type="button" style="padding: 0; display: flex; align-items: center; justify-content: center; width: 2.5em; height: 2.5em; background-color: transparent; border: none; cursor: pointer; margin-bottom: 1em;">
+      <button type="button" data-idra-comment-modal-open data-idra-comment-target="<%= add_comment_id %>" style="padding: 0; display: flex; align-items: center; justify-content: center; width: 2.5em; height: 2.5em; background-color: transparent; border: none; cursor: pointer; margin-bottom: 1em;">
         <span style="font-size: 20px; color: #f1c232">★</span>
       </button>
     <% end %>
@@ -50,78 +50,145 @@
   <% end %>
   
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const openModalButton = document.getElementById("openCustomModalButton");
-      const commentField = document.getElementById('<%= add_comment_id %>'); // Campo dei commenti
-      if (!openModalButton || !commentField) return;
-  
-      const openModal = async () => {
-        const existing = document.querySelector('[data-idra-editor-modal]');
-        if (existing) {
-          return existing;
-        }
-        const response = await fetch("/idra_modal_editor", { headers: { Accept: "text/html" } });
-        if (!response.ok) throw new Error("Failed to load editor modal");
-        const html = await response.text();
-        const modalWrapper = document.createElement("div");
-        modalWrapper.innerHTML = html.trim();
-        const modalElement = modalWrapper.firstElementChild;
-        if (!modalElement) return null;
-        document.body.appendChild(modalElement);
-        return modalElement;
+    (() => {
+      if (window.__idraCommentModalInit) return;
+      window.__idraCommentModalInit = true;
+
+      const MODAL_ENDPOINT = "/idra_modal_editor";
+      const MODAL_SELECTOR = "[data-idra-editor-modal]";
+      const OPEN_TRIGGER_SELECTOR = "[data-idra-comment-modal-open]";
+      let activeCommentFieldId = null;
+      let modalRequest = null;
+
+      const closeModal = (modalElement) => {
+        if (modalElement) modalElement.remove();
       };
-  
-      const bindModal = (modalElement) => {
-        if (modalElement.dataset.commentBound) return;
+
+      const closeVisibleModal = () => {
+        closeModal(document.querySelector(MODAL_SELECTOR));
+      };
+
+      const resolveModalFromHtml = (html) => {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = html.trim();
+        return wrapper.querySelector(MODAL_SELECTOR);
+      };
+
+      const appendDatasetToComment = (url, title) => {
+        const commentField = activeCommentFieldId ? document.getElementById(activeCommentFieldId) : null;
+        if (!commentField) return false;
+        const prefix = commentField.value && !commentField.value.endsWith("\n") ? "\n" : "";
+        commentField.value = `${commentField.value}${prefix}${title} : ${url}\n`;
+        commentField.dispatchEvent(new Event("input", { bubbles: true }));
+        return true;
+      };
+
+      const bindModalInteractions = (modalElement) => {
+        if (modalElement.dataset.commentBound === "true") return;
         modalElement.dataset.commentBound = "true";
-        const searchBar = modalElement.querySelector('#idra-datasets-search');
-        const list = modalElement.querySelector('#linksContainer');
-  
-        searchBar?.addEventListener('input', () => {
-          const query = searchBar.value.toLowerCase();
-          list?.querySelectorAll('.dataset-item').forEach((item) => {
+
+        const searchBar = modalElement.querySelector("#idra-datasets-search");
+        const list = modalElement.querySelector("#linksContainer");
+
+        searchBar?.addEventListener("input", () => {
+          const query = searchBar.value.trim().toLowerCase();
+          list?.querySelectorAll(".dataset-item").forEach((item) => {
             const text = item.textContent.toLowerCase();
-            item.style.display = text.includes(query) ? 'flex' : 'none';
+            item.style.display = text.includes(query) ? "flex" : "none";
           });
         });
-  
-        list?.addEventListener('click', (event) => {
-          const button = event.target.closest('.copy-button');
+
+        list?.addEventListener("click", (event) => {
+          const button = event.target.closest(".copy-button");
           if (!button) return;
+
           const url = button.dataset.url;
           const title = button.dataset.title;
           if (!url || !title) return;
-          commentField.value += `${title} : ${url}\n`;
-          button.textContent = 'Done';
-          button.style.backgroundColor = 'transparent';
-          button.style.color = 'gray';
+          if (!appendDatasetToComment(url, title)) return;
+
+          button.textContent = "Done";
+          button.style.backgroundColor = "transparent";
+          button.style.color = "gray";
           button.disabled = true;
           button.style.cursor = "not-allowed";
           button.style.opacity = "0.6";
-          button.style.border = '1px solid grey';
+          button.style.border = "1px solid grey";
         });
-  
-        modalElement.addEventListener('click', (event) => {
-          if (event.target === modalElement) {
-            modalElement.remove();
-          }
+
+        modalElement.addEventListener("click", (event) => {
+          if (event.target === modalElement) closeModal(modalElement);
         });
-        modalElement.querySelector('[data-idra-modal-close]')?.addEventListener('click', () => modalElement.remove());
-  
+        modalElement.querySelector("[data-idra-modal-close]")?.addEventListener("click", () => closeModal(modalElement));
+
         if (window.Decidim && typeof window.Decidim.externalLinks === "function") {
           window.Decidim.externalLinks();
         }
       };
-  
-      openModalButton?.addEventListener('click', async () => {
+
+      const fetchModal = async () => {
+        const response = await fetch(MODAL_ENDPOINT, {
+          headers: { Accept: "text/html", "X-Requested-With": "XMLHttpRequest" },
+          credentials: "same-origin"
+        });
+
+        const redirectedToSignIn = response.redirected && response.url && response.url.includes("/users/sign_in");
+        if (response.status === 401 || response.status === 403 || redirectedToSignIn) {
+          window.location.assign(response.url || "/users/sign_in");
+          return null;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Failed to load editor modal (${response.status})`);
+        }
+
+        const html = await response.text();
+        const modalElement = resolveModalFromHtml(html);
+        if (!modalElement) {
+          throw new Error("Unexpected response while loading editor modal");
+        }
+
+        document.body.appendChild(modalElement);
+        return modalElement;
+      };
+
+      const ensureModal = async () => {
+        closeVisibleModal();
+        if (!modalRequest) {
+          modalRequest = fetchModal().finally(() => {
+            modalRequest = null;
+          });
+        }
+        return modalRequest;
+      };
+
+      document.addEventListener("click", async (event) => {
+        const trigger = event.target.closest(OPEN_TRIGGER_SELECTOR);
+        if (!trigger) return;
+        event.preventDefault();
+
+        const fieldId = trigger.dataset.idraCommentTarget;
+        const commentField = fieldId ? document.getElementById(fieldId) : null;
+        if (!commentField) return;
+
+        activeCommentFieldId = commentField.id;
+        trigger.disabled = true;
+
         try {
-          const modalElement = await openModal();
+          const modalElement = await ensureModal();
           if (!modalElement) return;
-          bindModal(modalElement);
+          bindModalInteractions(modalElement);
         } catch (error) {
           console.error(error);
+        } finally {
+          trigger.disabled = false;
         }
       });
-    });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        closeVisibleModal();
+      });
+    })();
   </script>
   

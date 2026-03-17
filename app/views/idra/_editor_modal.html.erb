@@ -1,5 +1,5 @@
-<div class="modal-overlay idra-modal-overlay is-visible" data-idra-editor-modal>
-  <div class="modal idra-modal idra-modal-theme">
+<div class="modal-overlay idra-modal-overlay is-visible" data-idra-editor-modal aria-hidden="false">
+  <div class="modal idra-modal idra-modal-theme" role="dialog" aria-modal="true" aria-label="Saved datasets">
     <div id="datasets-list">
       <div class="idra-modal-header">
         <h2 class="text-center title-decorator">Saved Datasets</h2>
@@ -13,8 +13,8 @@
               <a href="<%= dataset.url %>" target="_blank" rel="noopener noreferrer nofollow" data-external-link="true">
                 <span><%= dataset.title %></span>
               </a>
-              <%= button_tag type: "button", class: "button delete-btn copy-button", data: { url: dataset.url, title: dataset.title }, aria: { label: "Add dataset" } do %>
-                <%= icon "clipboard-line", class: "icon" %>
+              <%= button_tag type: "button", class: "button copy-button copy-btn", data: { url: dataset.url, title: dataset.title }, aria: { label: "Add dataset" } do %>
+                <%= icon "clipboard-line", class: "copy-icon" %>
                 <span class="sr-only">Add</span>
               <% end %>
             </div>

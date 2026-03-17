@@ -913,6 +913,21 @@
   }
 }
 
+body > .idra-modal-overlay {
+  position: fixed !important;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 3990 !important;
+}
+
+body > .idra-modal-overlay.is-visible {
+  display: flex;
+}
+
 .idra-modal {
   position: relative;
   background-color: #fff;
@@ -926,6 +941,11 @@
   flex-direction: column;
   gap: 16px;
   align-items: flex-start;
+}
+
+body > .idra-modal-overlay > .idra-modal {
+  position: relative;
+  z-index: 3991;
 }
 
 .idra-modal > * {
@@ -1041,6 +1061,30 @@
 
   .copy-button {
     margin-left: 10px;
+  }
+
+  .copy-btn {
+    min-width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary, #5b4db3);
+  }
+
+  .copy-btn:hover,
+  .copy-btn:focus {
+    color: var(--secondary, #5b4db3);
+  }
+
+  .copy-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    display: block;
+    color: inherit;
+    fill: currentColor;
+    flex-shrink: 0;
   }
 
   .delete-btn {

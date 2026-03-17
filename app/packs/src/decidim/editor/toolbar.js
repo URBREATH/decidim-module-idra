@@ -295,77 +295,72 @@ export default function createEditorToolbar(editor) {
   ;
 
   async function openModal(editor) {
-    try {
-      const response = await fetch("/idra_modal_editor", { headers: { Accept: "text/html" } })
-      if (!response.ok) throw new Error("Failed to fetch the updated content")
-      const html = await response.text()
-      const modalWrapper = document.createElement("div")
-      modalWrapper.innerHTML = html.trim()
-      const modalElement = modalWrapper.firstElementChild
-      if (!modalElement) return null
-      document.body.appendChild(modalElement)
-    
-      // Aggiungi gli event listener
-      const searchBar = modalElement.querySelector('#idra-datasets-search');
-      searchBar?.addEventListener('input', () => {
+    const MODAL_ENDPOINT = "/idra_modal_editor";
+    const MODAL_SELECTOR = "[data-idra-editor-modal]";
+
+    const closeModal = (modalElement) => {
+      if (modalElement) modalElement.remove();
+    };
+
+    const resolveModalFromHtml = (rawHtml) => {
+      const modalWrapper = document.createElement("div");
+      modalWrapper.innerHTML = rawHtml.trim();
+      return modalWrapper.querySelector(MODAL_SELECTOR);
+    };
+
+    const bindModal = (modalElement) => {
+      if (modalElement.dataset.editorBound === "true") return;
+      modalElement.dataset.editorBound = "true";
+
+      const searchBar = modalElement.querySelector("#idra-datasets-search");
+      const linksContainer = modalElement.querySelector("#linksContainer");
+
+      searchBar?.addEventListener("input", () => {
         const query = searchBar.value.toLowerCase();
-        const listItems = modalElement.querySelectorAll('.dataset-item');
-        listItems.forEach(item => {
-          const title = item.querySelector('a').textContent.toLowerCase();
-          item.style.display = title.includes(query) ? 'flex' : 'none';
+        const listItems = modalElement.querySelectorAll(".dataset-item");
+        listItems.forEach((item) => {
+          const title = item.querySelector("a")?.textContent?.toLowerCase() || "";
+          item.style.display = title.includes(query) ? "flex" : "none";
         });
       });
 
-      modalElement.querySelector('#linksContainer').addEventListener('click', (event) => {
-        const button = event.target.closest('.copy-button');
+      linksContainer?.addEventListener("click", (event) => {
+        const button = event.target.closest(".copy-button");
         if (button) {
           const url = button.dataset.url;
           const title = button.dataset.title;
-          
-          // Log per verificare che il clic sia stato registrato
-          console.log('Cliccato sul pulsante "Copy"', { url, title });
-      
-          // Aggiorna lo stile del pulsante
-          button.textContent = 'Done';
+
+          button.textContent = "Done";
           button.disabled = true;
-          button.style.color = 'grey';
-          button.style.cursor = 'not-allowed';
-          button.style.opacity = '0.6';
-          button.style.border = '1px solid grey';
-          button.style.backgroundColor = 'transparent';
-          
-          // Verifica se l'editor è disponibile
-          if (editor) {
-            console.log('Editor trovato, inserendo il link');
-            // Inserisci il link nell'editor
+          button.style.color = "grey";
+          button.style.cursor = "not-allowed";
+          button.style.opacity = "0.6";
+          button.style.border = "1px solid grey";
+          button.style.backgroundColor = "transparent";
+
+          if (editor && url && title) {
             const linkHTML = `<a href="${url}" target="_blank">${title}</a>`;
-            editor.commands.insertContent(linkHTML); // Assicurati che il comando sia valido
-            editor.commands.insertContent('<p><br></p>');
-          } else {
-            console.error('Editor non trovato');
+            editor.commands.insertContent(linkHTML);
+            editor.commands.insertContent("<p><br></p>");
           }
         }
       });
-    
-      // Chiusura del modale cliccando all'esterno o sul close
-      modalElement.addEventListener('click', (event) => {
+
+      modalElement.addEventListener("click", (event) => {
         if (event.target === modalElement) {
-          modalElement.remove();
+          closeModal(modalElement);
         }
       });
-      modalElement.querySelector('[data-idra-modal-close]')?.addEventListener('click', () => modalElement.remove());
+      modalElement.querySelector("[data-idra-modal-close]")?.addEventListener("click", () => closeModal(modalElement));
 
-      // Rebind Decidim external link warning if available
       if (window.Decidim && typeof window.Decidim.externalLinks === "function") {
         window.Decidim.externalLinks();
       }
 
-      // Fallback: ensure external link warning fires in this modal
-      modalElement.querySelector('#linksContainer')?.addEventListener('click', (event) => {
+      linksContainer?.addEventListener("click", (event) => {
         const link = event.target.closest('a[data-external-link="true"]');
         if (!link) return;
         if (window.Decidim && typeof window.Decidim.externalLinks === "function") {
-          // Let Decidim handler manage it
           return;
         }
         event.preventDefault();
@@ -375,10 +370,34 @@ export default function createEditorToolbar(editor) {
           window.open(link.href, "_blank", "noopener");
         }
       });
+    };
+
+    try {
+      closeModal(document.querySelector(MODAL_SELECTOR));
+
+      const response = await fetch(MODAL_ENDPOINT, {
+        headers: { Accept: "text/html", "X-Requested-With": "XMLHttpRequest" },
+        credentials: "same-origin"
+      });
+
+      const redirectedToSignIn = response.redirected && response.url && response.url.includes("/users/sign_in");
+      if (response.status === 401 || response.status === 403 || redirectedToSignIn) {
+        window.location.assign(response.url || "/users/sign_in");
+        return null;
+      }
+
+      if (!response.ok) throw new Error(`Failed to fetch the updated content (${response.status})`);
+
+      const responseHtml = await response.text();
+      const modalElement = resolveModalFromHtml(responseHtml);
+      if (!modalElement) throw new Error("Unexpected response while loading editor modal");
+
+      document.body.appendChild(modalElement);
+      bindModal(modalElement);
 
       return modalElement;
     } catch (error) {
-      console.error('Errore nel caricare i dati:', error);
+      console.error("Errore nel caricare i dati:", error);
       return null;
     }
   }
