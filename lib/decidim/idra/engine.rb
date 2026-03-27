@@ -25,6 +25,12 @@ module Decidim
         )
       end
 
+      config.to_prepare do
+        unless Decidim::Comments::CommentsHelper.ancestors.include?(Decidim::Idra::CommentsHelperOverride)
+          Decidim::Comments::CommentsHelper.prepend(Decidim::Idra::CommentsHelperOverride)
+        end
+      end
+
       idra_url = "/idra"
 
 

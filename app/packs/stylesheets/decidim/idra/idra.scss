@@ -952,30 +952,30 @@ body > .idra-modal-overlay > .idra-modal {
   width: 100%;
 }
 
-  .idra-modal-theme {
-    h2 {
-      margin: 0;
-      text-align: center;
-      font-size: 24px;
-      font-weight: 700;
-      width: 100%;
-    }
+.idra-modal-theme {
+  h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    width: 100%;
+  }
 
-    .close {
-      position: absolute;
-      right: 0;
-      top: 0;
-      transform: none;
-      font-size: 24px;
-      line-height: 1;
-      min-width: 2.2rem;
-      height: 2.2rem;
-      display: inline-flex;
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: none;
+    font-size: 24px;
+    line-height: 1;
+    min-width: 2.2rem;
+    height: 2.2rem;
+    display: inline-flex;
     align-items: center;
-      justify-content: center;
-      padding: 0;
-      margin: 0;
-    }
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
 
   .idra-modal-header {
     position: relative;

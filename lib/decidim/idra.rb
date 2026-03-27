@@ -3,6 +3,7 @@
 require "decidim/idra/admin"
 require "decidim/idra/engine"
 require "decidim/idra/admin_engine"
+require "decidim/idra/comments_helper_override"
 require "decidim/idra/component"
 
 module Decidim
