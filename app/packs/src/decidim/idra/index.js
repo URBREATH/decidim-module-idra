@@ -45,11 +45,25 @@ const toggleModal = (open) => {
 }
 
 const bindModal = () => {
-  document.querySelectorAll("[data-idra-modal-open]").forEach((btn) => {
-    btn.addEventListener("click", () => toggleModal(true))
-  })
-  document.querySelectorAll("[data-idra-modal-close]").forEach((btn) => {
-    btn.addEventListener("click", () => toggleModal(false))
+  if (window.__idraCatalogModalBound) return
+  window.__idraCatalogModalBound = true
+
+  document.addEventListener("click", (event) => {
+    const openTrigger = event.target.closest("[data-idra-modal-open]")
+    if (openTrigger) {
+      toggleModal(true)
+      return
+    }
+
+    const closeTrigger = event.target.closest("[data-idra-modal-close]")
+    if (closeTrigger) {
+      toggleModal(false)
+      return
+    }
+
+    if (event.target.classList?.contains("idra-modal-overlay")) {
+      toggleModal(false)
+    }
   })
 }
 
