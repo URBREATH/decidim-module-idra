@@ -22,7 +22,7 @@
 
     <div class="results-card-body">
       <div class="truncated-content">
-        <%= truncate_html(result["description"], length: 300) %>
+        <%= truncate(strip_tags(result["description"].to_s), length: 300, separator: " ") %>
       </div>
 
       <div class="full-content" style="display: none;" id="full-content-<%= index %>">
