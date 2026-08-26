@@ -30,5 +30,6 @@ Gem::Specification.new do |s|
     end
   end
 
-  s.add_dependency "decidim-core", Decidim::Idra.version
+  # Keep this aligned with the host Decidim application.
+  s.add_dependency "decidim-core", "0.31.4"
 end
