@@ -48,4 +48,4 @@ Security is very important to us. If you have any issue regarding security, plea
 
 ## License
 
-This engine is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+This engine is distributed under the [GNU AFFERO GENERAL PUBLIC LICENSE](LICENSE).

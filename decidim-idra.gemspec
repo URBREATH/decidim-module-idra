@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.files = Dir.chdir(__dir__) do
     `git ls-files -z`.split("\x0").select do |f|
       (File.expand_path(f) == __FILE__) ||
-        f.start_with?(*%w(app/ config/ db/ lib/ LICENSE-AGPLv3.txt Rakefile README.md))
+        f.start_with?(*%w(app/ config/ db/ lib/ LICENSE Rakefile README.md))
     end
   end
 
